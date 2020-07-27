@@ -37,7 +37,7 @@ export default function Navbar() {
   const { t } = useTranslation();
   const classes = useStyles();
   const history = useHistory();
-  const matches = useMediaQuery(theme => theme.breakpoints.down('sm'));
+  const matches = useMediaQuery(theme => theme.breakpoints.down('sm')); // TODO
 
   const [value, setValue] = useState(window.location.pathname);
   const [anchorEl, setAnchorEl] = useState(null);

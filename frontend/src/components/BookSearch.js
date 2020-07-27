@@ -16,7 +16,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
-    marginBottom: theme.spacing(3),
   },
   errorMsg: {
     textAlign: 'center',
