@@ -1,0 +1,20 @@
+{
+    "addBook": "Boek toevoegen",
+    "addBookSearch": "ISBN opzoeken",
+    "addBookText": "Boeken toevoegen gebeurt door het ISBN nummer in te geven.\nEr zal geprobeerd worden automatisch info te zoeken over het boek.",
+    "users": "Beheerders",
+    "borrowers": "Leners",
+    "addBorrower": "Lener toevoegen",
+    "addBorrowerSuccess": "Lener toegevoegd",
+    "invites": "Openstaande uitnodigingen",
+    "inviteUser": "Beheerder toevoegen",
+    "sendInvite": "Uitnodiging versturen",
+    "inviteUserText": "Om een beheerder toe te voegen wordt er een e-mail verstuurd met een uitnodiging in. Wanneer de gebruiker op de uitnodiging klikt, zal die de mogelijkheid krijgen om een account aan te maken.",
+    "inviteUserSuccess": "Uitnodiging verstuurd",
+    "emailInviter": "E-mailadres van uitnodiger",
+    "emailInvited": "E-mailadres van uitgenodigde",
+    "invitedOn": "Uitgenodigd op",
+    "deleteInvite": "Uitnodiging verwijderen",
+    "deleteInviteText": "Weet u zeker dat u deze uitnodiging wilt verwijderen?",
+    "deleteInviteSuccess": "Uitnodiging verwijderd"
+}

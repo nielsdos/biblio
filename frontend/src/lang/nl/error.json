@@ -1,0 +1,8 @@
+{
+    "unknown": "Er trad een fout op. Gelieve het later nog eens te proberen.",
+    "throttled": "U stuurde te veel verzoeken. Probeer het over enkele minuten opnieuw.",
+    "invalidCreds": "E-mailadres of wachtwoord is fout.",
+    "connection": "Kon geen verbinding maken met de server.",
+    "notFound": "Pagina niet gevonden",
+    "emptyDataSourceMessage": "Geen resultaten gevonden"
+}

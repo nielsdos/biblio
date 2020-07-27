@@ -1,0 +1,36 @@
+.MuiSvgIcon-root {
+    pointer-events: none;
+}
+
+@supports(backdrop-filter: none) {
+    .navbar {
+        background-color: rgba(255, 255, 255, 0.7) !important;
+        backdrop-filter: blur(13px);
+    }
+}
+
+.navbar {
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,0.075),
+                0 2px 2px 0 rgba(0,0,0,0.05),
+                0 1px 5px 0 rgba(0,0,0,0.045) !important;
+}
+
+html {
+    height: 100%;
+}
+
+.Mui-error {
+    white-space: pre-line;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Fix autocomplete on custom */
+.MuiAutocomplete-popper {
+    top: 10px !important;
+}
