@@ -29,7 +29,7 @@
     "isbn": "ISBN nummer",
     "numberOfCopies": "Aantal exemplaren",
     "dataSource": "Data bron",
-    "registerRent": "Uitlenen...",
+    "registerBorrow": "Uitlenen...",
     "loading": "Laden...",
     "delete": "Verwijderen",
     "labelDisplayedRows": "{from} - {to} van {count}",

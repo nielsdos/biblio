@@ -145,7 +145,7 @@ export default (props) => {
                   variant="contained"
                   color="primary"
                 >
-                  {t('common:registerRent')}
+                  {t('common:registerBorrow')}
                 </Button>
               </>
             )}
