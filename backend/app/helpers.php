@@ -56,6 +56,6 @@ function cleanupBooleanModeParameter(string $input): string {
     // Filter operators so the query succeeds.
     // If we want to allow the operators, we would need to parse the input.
     $input = str_replace(['@', '(', ')', '+', '-', '<', '>', '"', '~'], '', $input);
-    $input = preg_replace('/\*+/', '\1', $input);
+    $input = preg_replace('/\*+/', '*', $input);
     return $input;
 }
