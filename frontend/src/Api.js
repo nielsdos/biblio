@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_BASE = "http://localhost/api/";
+export const API_BASE = "http://localhost/api/"; // TODO: make configurable and document
 
 const Api = axios.create({
   baseURL: API_BASE,

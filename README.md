@@ -2,7 +2,7 @@
 
 ## TODO for MVP
 
-* Edit books & delete
+* Edit books & delete (! cascade borrows?)
 * Borrowing system
 * Check pending borrows and filter which borrows are already expired but not yet returned
 
