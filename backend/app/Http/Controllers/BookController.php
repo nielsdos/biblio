@@ -12,7 +12,6 @@ use App\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-// TODO: test policy
 class BookController extends Controller {
     public function __construct() {
         $this->authorizeResource(Book::class, 'book', ['except' => ['index']]);
