@@ -103,10 +103,8 @@ function InviteManagement(props) {
         successText={t('manage:deleteInviteSuccess')}
         submit={data => Api.delete('users/invites/' + inviteId, data)}
         open={deleteDialogOpen}
-        onClose={() => {
-          handleClose();
-          props.tableRef.current.onQueryChange();
-        }}
+        onDelete={() => props.tableRef.current.onQueryChange()}
+        onClose={handleClose}
       />
 
       <RemoteTable

@@ -31,6 +31,7 @@ export default function(props) {
               .then(_ => {
                 setSubmitting(false);
                 setDeleteSuccessOpen(true);
+                props.onDelete();
                 props.onClose();
               })
               .catch(_e => {

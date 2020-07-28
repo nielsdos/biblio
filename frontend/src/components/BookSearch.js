@@ -41,7 +41,55 @@ function getSearchFromQueryString() {
   return search.get('q') || '';
 }
 
-export default (props) => {
+function ManageBooks(props) {
+  const {t} = useTranslation();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  return (
+    <>
+      <Menu
+        id="item-menu"
+        anchorEl={props.itemMenuAnchorEl}
+        keepMounted
+        open={Boolean(props.itemMenuAnchorEl)}
+        onClose={props.handleItemMenuClose}
+      >
+        <MenuItem onClick={() => {
+          props.handleItemMenuClose();
+          alert('hi');
+        }}>
+          <CreateIcon className="menu-icon" />{t('common:edit')}
+        </MenuItem>
+        <MenuItem onClick={_e => {
+          props.handleItemMenuClose();
+          setDeleteDialogOpen(true);
+        }}>
+          <DeleteIcon className="menu-icon" />{t('common:delete')}
+        </MenuItem>
+      </Menu>
+
+      <DeleteDialog
+        title={t('manage:deleteBook')}
+        text={t('manage:deleteBookText')}
+        successText={t('manage:deleteBookSuccess')}
+        submit={data => Api.delete('books/' + props.bookId, data)}
+        open={deleteDialogOpen}
+        onDelete={() => {
+          // Remove from item list
+          const idx = props.results.findIndex(item => item.id === props.bookId);
+          if(idx > -1) {
+            const newResults = Array.from(props.results);
+            newResults.splice(idx, 1);
+            props.setResults(newResults);
+          }
+        }}
+        onClose={() => setDeleteDialogOpen(false)}
+      />
+    </>
+  );
+}
+
+export default function(props) {
   const history = useHistory();
   const classes = useStyles();
   const {t} = useTranslation();
@@ -51,10 +99,8 @@ export default (props) => {
   const [inputValue, setInputValue] = useState(getSearchFromQueryString());
   const [defaultValue] = useState(getSearchFromQueryString());
 
-  // Management
-  // TODO: split me?
+  // Management stuff
   const [itemMenuAnchorEl, setItemMenuAnchorEl] = useState(null);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [handlingBookId, setHandlingBookId] = useState(-1);
 
   const onSearch = q => {
@@ -150,43 +196,12 @@ export default (props) => {
         <></>
       )}
 
-      <Menu
-        id="item-menu"
-        anchorEl={itemMenuAnchorEl}
-        keepMounted
-        open={Boolean(itemMenuAnchorEl)}
-        onClose={handleItemMenuClose}
-      >
-        <MenuItem onClick={() => {
-          handleItemMenuClose();
-          alert('hi');
-        }}>
-          <CreateIcon className="menu-icon" />{t('common:edit')}
-        </MenuItem>
-        <MenuItem onClick={_e => {
-          handleItemMenuClose();
-          setDeleteDialogOpen(true);
-        }}>
-          <DeleteIcon className="menu-icon" />{t('common:delete')}
-        </MenuItem>
-      </Menu>
-
-      <DeleteDialog
-        title={t('manage:deleteBook')}
-        text={t('manage:deleteBookText')}
-        successText={t('manage:deleteBookSuccess')}
-        submit={data => Api.delete('books/' + handlingBookId, data)}
-        open={deleteDialogOpen}
-        onClose={() => {
-          setDeleteDialogOpen(false);
-          // Remove from item list
-          const idx = results.findIndex(item => item.id === handlingBookId);
-          if(idx > -1) {
-            const newResults = Array.from(results);
-            newResults.splice(idx, 1);
-            setResults(newResults);
-          }
-        }}
+      <ManageBooks
+        itemMenuAnchorEl={itemMenuAnchorEl}
+        bookId={handlingBookId}
+        results={results}
+        setResults={setResults}
+        handleItemMenuClose={handleItemMenuClose}
       />
     </>
   );
