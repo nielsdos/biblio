@@ -39,7 +39,6 @@ export default (props) => {
       setIsLoading(true);
 
       (async () => {
-        // TODO: show '-' in output if it's found in input??
         const req = await Api.get(
           'books/suggest?q=' + encodeURIComponent(props.inputValue)
         );
@@ -63,6 +62,7 @@ export default (props) => {
     if (typeof option === 'string') {
       return option;
     } else {
+      // TODO: show '-' in output if it's found in input??
       return `${option.title} (${option.isbn13})`;
     }
   }
@@ -77,7 +77,7 @@ export default (props) => {
       defaultValue={props.defaultValue}
       inputValue={props.inputValue}
       onInputChange={(_event, newInputValue) =>
-        newInputValue && props.setInputValue(newInputValue)
+        props.setInputValue(newInputValue)
       }
       onChange={(_event, newInputValue) => {
         if (newInputValue?.isbn13) {

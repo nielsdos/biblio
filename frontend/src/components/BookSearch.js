@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchBar from './SearchBar';
@@ -100,6 +100,7 @@ function ManageBooks(props) {
 
 export default function (props) {
   const history = useHistory();
+  const location = useLocation();
   const classes = useStyles();
   const { t } = useTranslation();
   const [results, setResults] = useState([]);
@@ -136,9 +137,9 @@ export default function (props) {
       setInputValue(q);
       onSearch(q);
     }
-    // Silence false-positive
+    // Silence false-positive (we only want this actually on search string changes, not input changes)
     // eslint-disable-next-line
-  }, [window.location.search]);
+  }, [location.search]);
 
   useEffect(() => {
     if (inputValue) {
