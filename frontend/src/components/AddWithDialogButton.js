@@ -11,31 +11,13 @@ import { getErrorObjectFromResponse } from '../Api';
 import TopProgressBar from '../components/TopProgressBar';
 import Notification from '../components/Notification';
 
-export default (props) => {
+export function AddDialog(props) {
   const { t } = useTranslation();
-  const [addOpen, setAddOpen] = useState(false);
   const [addErrorTexts, setAddErrorTexts] = useState({});
   const [addSuccessOpen, setAddSuccessOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setAddOpen(true);
-  };
-
-  const handleClose = () => {
-    setAddOpen(false);
-  };
-
   return (
     <>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleClickOpen}
-        startIcon={props.startIcon}
-      >
-        {props.title}...
-      </Button>
-
       <Notification
         open={addSuccessOpen}
         handleClose={() => setAddSuccessOpen(false)}
@@ -43,8 +25,8 @@ export default (props) => {
       />
 
       <Dialog
-        open={addOpen}
-        onClose={handleClose}
+        open={props.open}
+        onClose={props.onClose}
         aria-labelledby={props.title}
       >
         <Formik
@@ -57,7 +39,7 @@ export default (props) => {
               .submit(data)
               .then((_) => {
                 setSubmitting(false);
-                handleClose();
+                props.onClose();
                 setAddSuccessOpen(true);
                 props.onSuccess();
               })
@@ -81,7 +63,7 @@ export default (props) => {
                   {props.formContent(addErrorTexts)}
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleClose}>{t('common:cancel')}</Button>
+                  <Button onClick={props.onClose}>{t('common:cancel')}</Button>
                   <Button type="submit" disabled={isSubmitting} color="primary">
                     {props.submitText || props.title}
                   </Button>
@@ -93,4 +75,43 @@ export default (props) => {
       </Dialog>
     </>
   );
-};
+}
+
+export default function (props) {
+  const [addOpen, setAddOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setAddOpen(true);
+  };
+
+  const handleClose = () => {
+    setAddOpen(false);
+  };
+
+  return (
+    <>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleClickOpen}
+        startIcon={props.startIcon}
+      >
+        {props.title}...
+      </Button>
+
+      <AddDialog
+        open={addOpen}
+        onClose={handleClose}
+        submit={props.submit}
+        onSuccess={props.onSuccess}
+        formContent={props.formContent}
+        title={props.title}
+        submitText={props.submitText}
+        successText={props.successText}
+        infoText={props.infoText}
+        defaultErrorField={props.defaultErrorField}
+        formInitialValues={props.formInitialValues}
+      />
+    </>
+  );
+}
