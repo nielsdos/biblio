@@ -128,7 +128,7 @@ function App() {
               <LoginRedirectedRoute exact guard={authState.loggedIn} path="/users" component={UserPage} />
               <LoginRedirectedRoute exact guard={authState.loggedIn} path="/borrowers" component={BorrowerPage} />
               <LoginRedirectedRoute exact guard={authState.loggedIn} path="/add-book" component={AddBookPage} />
-              <LoginRedirectedRoute exact guard={authState.loggedIn} path="/books/{id}" component={EditBookPage} />
+              <LoginRedirectedRoute exact guard={authState.loggedIn} path="/books/:id/edit" component={EditBookPage} />
               <Route component={NotFoundPage} />
             </Switch>
           </>

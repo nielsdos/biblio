@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller {
     public function __construct() {
-        $this->authorizeResource(Book::class, 'book', ['except' => ['index']]);
+        $this->authorizeResource(Book::class, 'book', ['except' => ['index', 'show']]);
     }
 
     public function index(Request $request) {
@@ -23,11 +23,19 @@ class BookController extends Controller {
             return response()->json(['data' => []]);
         }
 
+        // TODO: only load borrowers that are relevant (same for sho)
         return BookResource::collection(
             Book::with(['authors', 'publisher', 'borrowers'])
                 ->search($q)
                 ->limit(10)
                 ->get()
+        );
+    }
+
+    public function show(int $book) {
+        return new BookResource(
+            Book::with(['authors', 'publisher', 'borrowers'])
+                ->findOrFail($book)
         );
     }
 
@@ -157,6 +165,9 @@ class BookController extends Controller {
 
         try {
             $data = $this->getDataFromOpenLibrary($fields['isbn']);
+            if(!$data) {
+                throw new \Exception();
+            }
         } catch(\Exception $e) {
             return response()->json([], 500);
         }

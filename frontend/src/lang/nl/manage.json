@@ -2,6 +2,7 @@
     "addBook": "Boek toevoegen",
     "addBookSearch": "ISBN opzoeken",
     "addBookText": "Boeken toevoegen gebeurt door het ISBN nummer in te geven.\nEr zal geprobeerd worden automatisch info te zoeken over het boek.",
+    "editBook": "Boek bewerken",
     "users": "Beheerders",
     "borrowers": "Leners",
     "borrows": "Uitleningen",

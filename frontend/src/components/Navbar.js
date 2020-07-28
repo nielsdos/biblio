@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 const PATH_MAP = new Map();
 PATH_MAP.set('/add-book', '/');
+PATH_MAP.set('/books', '/');
 
 /**
  * Translates a specific pathname to a more generic one.
@@ -46,6 +47,10 @@ PATH_MAP.set('/add-book', '/');
  * @return {string} The translated pathname
  */
 function translatePathToKey(path) {
+  let idx = path.indexOf('/', 1);
+  if(idx > -1) {
+    path = path.substr(0, idx);
+  }
   let candidate = PATH_MAP.get(path);
   if(candidate) return candidate;
   return path;

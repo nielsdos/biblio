@@ -18,7 +18,9 @@ const Api = axios.create({
 export function getErrorObjectFromResponse(e, t, defaultName) {
   if (e.response) {
     const {status} = e.response;
-    if(status >= 400 && status < 500) {
+    if(status === 404) {
+      return {[defaultName]: t('error:notFound')};
+    } else if(status === 422) {
       const out = {};
       const inp = e.response.data.errors;
       for(const err in inp) {

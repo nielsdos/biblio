@@ -42,6 +42,7 @@ function maybeAddPadded(item, dest, src) {
  * Post process result to transform the data to a more friendly internal format.
  *
  * @param {Object} item Result
+ * @return {Object} The item
  */
 export function postProcessResult(item) {
   if(item.first_available) {
@@ -52,6 +53,7 @@ export function postProcessResult(item) {
   item.publish_date = item.publish_year;
   maybeAddPadded(item, 'publish_date', item.publish_month);
   maybeAddPadded(item, 'publish_date', item.publish_day);
+  return item;
 }
 
 /**

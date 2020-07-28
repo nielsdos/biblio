@@ -43,6 +43,7 @@ function getSearchFromQueryString() {
 
 function ManageBooks(props) {
   const {t} = useTranslation();
+  const history = useHistory();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   return (
@@ -56,7 +57,7 @@ function ManageBooks(props) {
       >
         <MenuItem onClick={() => {
           props.handleItemMenuClose();
-          alert('hi');
+          history.push('/books/' + props.bookId + '/edit');
         }}>
           <CreateIcon className="menu-icon" />{t('common:edit')}
         </MenuItem>

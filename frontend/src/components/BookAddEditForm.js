@@ -12,6 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import SearchIcon from '@material-ui/icons/Search';
+import SaveIcon from '@material-ui/icons/Save';
 import NormalSpinner from '../components/NormalSpinner';
 import TopProgressBar from '../components/TopProgressBar';
 import {Field, Formik} from "formik";
@@ -51,7 +52,7 @@ export default function(props) {
   const [isSearching, setIsSearching] = useState(false);
   const [searchErrorTexts, setSearchErrorTexts] = useState({});
   const [addErrorTexts, setAddErrorTexts] = useState({});
-  const [bookData, setBookData] = useState(undefined);
+  const [bookData, setBookData] = useState(props.bookData);
 
   function searchData(isbn) {
     setBookData(undefined);
@@ -63,23 +64,14 @@ export default function(props) {
         const data = res.data;
         // TODO: maybe do this on the server if we ever decide to have links to publisher pages etc?
         data.publisher = {name: data.publisher};
-        data.authors = data.authors.map(a => ({name: a}));
-        postProcessResult(data);
-        setBookData(data);
+        data.authors = data.authors.map(name => ({name}));
+        setBookData(postProcessResult(data));
         setIsSearching(false);
       })
       .catch(e => {
         setSearchErrorTexts(getErrorObjectFromResponse(e, t, 'isbn'));
         setIsSearching(false);
       });
-  }
-
-  // Initial value
-  if(props.isbn) {
-    useEffect(() => {
-      searchData(props.isbn);
-      // eslint-disable-next-line
-    }, [props.isbn]);
   }
 
   return (
@@ -144,7 +136,7 @@ export default function(props) {
 
       {bookData && (
         <Formik
-          initialValues={{number_of_copies: 1}}
+          initialValues={props.initialAddValues}
           onSubmit={(data, {setSubmitting}) => {
             setSubmitting(true);
             setAddErrorTexts({});
@@ -201,8 +193,8 @@ export default function(props) {
                     variant="contained"
                     color="primary"
                     type="submit"
-                    startIcon={<AddCircleIcon />}
-                  >{t('manage:addBook')}</Button>
+                    startIcon={props.add ? <AddCircleIcon /> : <SaveIcon />}
+                  >{props.add ? t('manage:addBook') : t('common:save')}</Button>
                 </form>
               </div>
             </Paper>

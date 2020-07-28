@@ -21,5 +21,6 @@ Route::put('/borrowers/{borrower}', 'BorrowerController@update');
 Route::get('/books', 'BookController@index');
 Route::post('/books/lookup', 'BookController@lookup');
 Route::post('/books', 'BookController@create');
-Route::delete('/books/{book}', 'BookController@delete');
 Route::get('/books/suggest', 'BookController@suggest');
+Route::get('/books/{book}', 'BookController@show');
+Route::delete('/books/{book}', 'BookController@delete');

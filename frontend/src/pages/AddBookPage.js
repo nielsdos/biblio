@@ -13,6 +13,7 @@ export default function() {
       <Title title={t('manage:addBook')} />
       <BookAddEditForm
         add
+        initialAddValues={{number_of_copies: 1}}
       />
     </Container>
   );
