@@ -24,7 +24,6 @@ class BookController extends Controller {
             return response()->json(['data' => []]);
         }
 
-        // TODO: only load borrowers that are relevant (same for sho)
         return BookResource::collection(
             Book::with(['authors', 'publisher', 'borrowers'])
                 ->search($q)
