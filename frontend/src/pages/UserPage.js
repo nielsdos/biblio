@@ -1,27 +1,20 @@
 import React, { useState, useRef } from 'react';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Title from '../components/Title';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { useTranslation } from 'react-i18next';
 import {makeStyles} from "@material-ui/core/styles";
 import ManageStyles from './ManageStyles';
 import TextField from '@material-ui/core/TextField';
-import {Field, Formik} from "formik";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import {Field} from "formik";
 import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Api from "../Api";
 import AddWithDialogButton from '../components/AddWithDialogButton';
 import {renderDateTimeField} from '../helpers/renderHelpers';
-import TopProgressBar from '../components/TopProgressBar';
 import RemoteTable from '../components/RemoteTable';
-import Notification from '../components/Notification';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import DeleteDialog from '../components/DeleteDialog';
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -96,7 +89,6 @@ function UserManagement(props) {
 function InviteManagement(props) {
   const {t} = useTranslation();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [deleteSuccessOpen, setDeleteSuccessOpen] = useState(false);
   const [inviteId, setInviteId] = useState(0);
 
   const handleClose = () => {
@@ -105,52 +97,17 @@ function InviteManagement(props) {
 
   return (
     <>
-      <Notification
-        open={deleteSuccessOpen}
-        handleClose={() => setDeleteSuccessOpen(false)}
-        text={t('manage:deleteInviteSuccess')}
+      <DeleteDialog
+        title={t('manage:deleteInvite')}
+        text={t('manage:deleteInviteText')}
+        successText={t('manage:deleteInviteSuccess')}
+        submit={data => Api.delete('users/invites/' + inviteId, data)}
+        open={deleteDialogOpen}
+        onClose={() => {
+          handleClose();
+          props.tableRef.current.onQueryChange();
+        }}
       />
-
-      <Dialog open={deleteDialogOpen} onClose={handleClose} aria-labelledby={t('manage:deleteInvite')}>
-        <Formik
-          initialValues={{}}
-          onSubmit={(data, {setSubmitting}) => {
-            setSubmitting(true);
-
-            Api.delete('users/invites/' + inviteId, data)
-              .then(_ => {
-                setSubmitting(false);
-                handleClose();
-                setDeleteSuccessOpen(true);
-                props.tableRef.current.onQueryChange();
-              })
-              .catch(e => {
-                setSubmitting(false);
-              });
-          }}>
-          {({handleSubmit, isSubmitting}) => (
-            <>
-              <TopProgressBar visible={isSubmitting} />
-              <DialogTitle>{t('manage:deleteInvite')}</DialogTitle>
-              <form onSubmit={handleSubmit}>
-                <DialogContent>
-                  <DialogContentText>
-                    {t('manage:deleteInviteText')}
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleClose}>
-                    {t('common:cancel')}
-                  </Button>
-                  <Button type="submit" disabled={isSubmitting} color="secondary">
-                    {t('common:delete')}
-                  </Button>
-                </DialogActions>
-              </form>
-            </>
-          )}
-        </Formik>
-      </Dialog>
 
       <RemoteTable
         tableRef={props.tableRef}
