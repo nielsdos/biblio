@@ -20,6 +20,7 @@
 .navbar {
     position: sticky;
     z-index: 100;
+    background-color: #fff;
 }
 
 body {
