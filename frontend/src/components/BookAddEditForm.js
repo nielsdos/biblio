@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {useHistory} from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
@@ -15,11 +15,11 @@ import SearchIcon from '@material-ui/icons/Search';
 import SaveIcon from '@material-ui/icons/Save';
 import NormalSpinner from '../components/NormalSpinner';
 import TopProgressBar from '../components/TopProgressBar';
-import {Field, Formik} from "formik";
-import Api, {getErrorObjectFromResponse} from "../Api";
-import BookResult, {postProcessResult} from '../components/BookResult';
+import { Field, Formik } from 'formik';
+import Api, { getErrorObjectFromResponse } from '../Api';
+import BookResult, { postProcessResult } from '../components/BookResult';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     marginBottom: theme.spacing(2),
@@ -45,8 +45,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 // TODO: adding should be nicer and allow own data source
-export default function(props) {
-  const {t} = useTranslation();
+export default function (props) {
+  const { t } = useTranslation();
   const history = useHistory();
   const classes = useStyles();
   const [isSearching, setIsSearching] = useState(false);
@@ -59,16 +59,16 @@ export default function(props) {
     setIsSearching(true);
     setSearchErrorTexts({});
 
-    Api.post('books/lookup', {isbn: isbn.replace(/[- ]/g, '')})
-      .then(res => {
+    Api.post('books/lookup', { isbn: isbn.replace(/[- ]/g, '') })
+      .then((res) => {
         const data = res.data;
         // TODO: maybe do this on the server if we ever decide to have links to publisher pages etc?
-        data.publisher = {name: data.publisher};
-        data.authors = data.authors.map(name => ({name}));
+        data.publisher = { name: data.publisher };
+        data.authors = data.authors.map((name) => ({ name }));
         setBookData(postProcessResult(data));
         setIsSearching(false);
       })
-      .catch(e => {
+      .catch((e) => {
         setSearchErrorTexts(getErrorObjectFromResponse(e, t, 'isbn'));
         setIsSearching(false);
       });
@@ -78,16 +78,14 @@ export default function(props) {
     <>
       {props.add && (
         <Paper className={classes.paper}>
-          <Typography
-            className={classes.description}
-            variant="body1"
-          >
+          <Typography className={classes.description} variant="body1">
             {t('manage:addBookText')}
           </Typography>
           <Formik
-            initialValues={{isbn: ''}}
-            onSubmit={data => searchData(data.isbn)}>
-            {({handleSubmit}) => (
+            initialValues={{ isbn: '' }}
+            onSubmit={(data) => searchData(data.isbn)}
+          >
+            {({ handleSubmit }) => (
               <>
                 <form onSubmit={handleSubmit}>
                   <Field
@@ -96,7 +94,7 @@ export default function(props) {
                         <InputAdornment position="start">
                           <MenuBookIcon />
                         </InputAdornment>
-                      )
+                      ),
                     }}
                     name="isbn"
                     type="text"
@@ -122,7 +120,9 @@ export default function(props) {
                     color="primary"
                     type="submit"
                     startIcon={<SearchIcon />}
-                  >{t('manage:addBookSearch')}</Button>
+                  >
+                    {t('manage:addBookSearch')}
+                  </Button>
                 </form>
               </>
             )}
@@ -130,14 +130,12 @@ export default function(props) {
         </Paper>
       )}
 
-      {isSearching && (
-        <NormalSpinner />
-      )}
+      {isSearching && <NormalSpinner />}
 
       {bookData && (
         <Formik
           initialValues={props.initialAddValues}
-          onSubmit={(data, {setSubmitting}) => {
+          onSubmit={(data, { setSubmitting }) => {
             setSubmitting(true);
             setAddErrorTexts({});
 
@@ -145,23 +143,25 @@ export default function(props) {
               isbn: bookData.isbn13,
               number_of_copies: data.number_of_copies,
             })
-              .then(_ => {
+              .then((_) => {
                 setSubmitting(false);
-                history.push({pathname: '/', search: '?q=' + bookData.isbn13});
+                history.push({
+                  pathname: '/',
+                  search: '?q=' + bookData.isbn13,
+                });
               })
-              .catch(e => {
+              .catch((e) => {
                 setSubmitting(false);
                 setAddErrorTexts(getErrorObjectFromResponse(e, t, 'isbn'));
               });
-          }}>
-          {({handleSubmit, isSubmitting}) => (
+          }}
+        >
+          {({ handleSubmit, isSubmitting }) => (
             <Paper className={classes.rootAddBook}>
               <TopProgressBar visible={isSubmitting} />
               {addErrorTexts.isbn && (
                 <div className={`${classes.paper} ${classes.generalError}`}>
-                  <Alert severity="error">
-                    {addErrorTexts.isbn}
-                  </Alert>
+                  <Alert severity="error">{addErrorTexts.isbn}</Alert>
                 </div>
               )}
               <BookResult item={bookData} showAvailability={false} />
@@ -173,11 +173,11 @@ export default function(props) {
                         <InputAdornment position="start">
                           <ListAltIcon />
                         </InputAdornment>
-                      )
+                      ),
                     }}
                     inputProps={{
-                      min: "1",
-                      max: "99999",
+                      min: '1',
+                      max: '99999',
                     }}
                     name="number_of_copies"
                     type="number"
@@ -194,7 +194,9 @@ export default function(props) {
                     color="primary"
                     type="submit"
                     startIcon={props.add ? <AddCircleIcon /> : <SaveIcon />}
-                  >{props.add ? t('manage:addBook') : t('common:save')}</Button>
+                  >
+                    {props.add ? t('manage:addBook') : t('common:save')}
+                  </Button>
                 </form>
               </div>
             </Paper>

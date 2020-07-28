@@ -1,38 +1,38 @@
-import React, {useState} from 'react';
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import React, { useState } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import CardContent from "@material-ui/core/CardContent";
-import Card from "@material-ui/core/Card";
-import {Field, Formik} from "formik";
-import {Checkbox} from "@material-ui/core";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import {Link} from "react-router-dom";
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import CardContent from '@material-ui/core/CardContent';
+import Card from '@material-ui/core/Card';
+import { Field, Formik } from 'formik';
+import { Checkbox } from '@material-ui/core';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { Link } from 'react-router-dom';
 import VpnKeyOutlinedIcon from '@material-ui/icons/VpnKeyOutlined';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';
 import { useTranslation } from 'react-i18next';
-import {AuthContext} from '../AuthContext';
-import TopProgressBar from "../components/TopProgressBar";
+import { AuthContext } from '../AuthContext';
+import TopProgressBar from '../components/TopProgressBar';
 import AuthStyles from './AuthStyles';
 
 const useStyles = AuthStyles;
 
 export default (props) => {
   const classes = useStyles();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [errorText, setErrorText] = useState('');
 
   return (
     <Container maxWidth="sm">
       <Card className={classes.paper}>
         <AuthContext.Consumer>
-          {auth => (
+          {(auth) => (
             <Formik
-              initialValues={{email: '', password: '', remember: false}}
-              onSubmit={(data, {setSubmitting}) => {
+              initialValues={{ email: '', password: '', remember: false }}
+              onSubmit={(data, { setSubmitting }) => {
                 setSubmitting(true);
                 setErrorText('');
 
@@ -44,13 +44,14 @@ export default (props) => {
                   sentData.remember = true;
                 }
 
-                auth.actions.login(sentData)
-                  .then(_ => {
+                auth.actions
+                  .login(sentData)
+                  .then((_) => {
                     setSubmitting(false);
                   })
-                  .catch(e => {
+                  .catch((e) => {
                     if (e.response) {
-                      const {status} = e.response;
+                      const { status } = e.response;
                       if (status === 422) {
                         setErrorText('error:invalidCreds');
                       } else if (status === 429) {
@@ -63,13 +64,17 @@ export default (props) => {
                     }
                     setSubmitting(false);
                   });
-              }}>
-              {({isSubmitting, handleSubmit}) => (
+              }}
+            >
+              {({ isSubmitting, handleSubmit }) => (
                 <>
                   <TopProgressBar visible={isSubmitting} />
                   <CardContent>
                     <div className={classes.horizontal}>
-                      <LockOutlinedIcon color="secondary" className={classes.icon}/>
+                      <LockOutlinedIcon
+                        color="secondary"
+                        className={classes.icon}
+                      />
                       <Typography component="h1" variant="h4">
                         {t('common:login')}
                       </Typography>
@@ -81,7 +86,7 @@ export default (props) => {
                             <InputAdornment position="start">
                               <EmailOutlinedIcon />
                             </InputAdornment>
-                          )
+                          ),
                         }}
                         name="email"
                         type="email"
@@ -102,7 +107,7 @@ export default (props) => {
                             <InputAdornment position="start">
                               <VpnKeyOutlinedIcon />
                             </InputAdornment>
-                          )
+                          ),
                         }}
                         name="password"
                         type="password"
@@ -132,7 +137,9 @@ export default (props) => {
                         className={classes.submit}
                         size="large"
                         fullWidth
-                      >{t('common:login')}</Button>
+                      >
+                        {t('common:login')}
+                      </Button>
                       <Button color="primary" to="/forgot" component={Link}>
                         {t('common:forgotPassword')}
                       </Button>

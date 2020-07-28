@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import {useHistory} from "react-router-dom";
-import {useTranslation} from 'react-i18next';
-import {makeStyles} from "@material-ui/core/styles";
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { makeStyles } from '@material-ui/core/styles';
 import SearchBar from './SearchBar';
 import NormalSpinner from './NormalSpinner';
-import Api from "../Api";
+import Api from '../Api';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
@@ -16,10 +16,10 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SearchResultsDisclaimer from './SearchResultsDisclaimer';
-import BookResult, {postProcessResults} from './BookResult';
+import BookResult, { postProcessResults } from './BookResult';
 import DeleteDialog from './DeleteDialog';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
@@ -42,7 +42,7 @@ function getSearchFromQueryString() {
 }
 
 function ManageBooks(props) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const history = useHistory();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -55,17 +55,23 @@ function ManageBooks(props) {
         open={Boolean(props.itemMenuAnchorEl)}
         onClose={props.handleItemMenuClose}
       >
-        <MenuItem onClick={() => {
-          props.handleItemMenuClose();
-          history.push('/books/' + props.bookId + '/edit');
-        }}>
-          <CreateIcon className="menu-icon" />{t('common:edit')}
+        <MenuItem
+          onClick={() => {
+            props.handleItemMenuClose();
+            history.push('/books/' + props.bookId + '/edit');
+          }}
+        >
+          <CreateIcon className="menu-icon" />
+          {t('common:edit')}
         </MenuItem>
-        <MenuItem onClick={_e => {
-          props.handleItemMenuClose();
-          setDeleteDialogOpen(true);
-        }}>
-          <DeleteIcon className="menu-icon" />{t('common:delete')}
+        <MenuItem
+          onClick={(_e) => {
+            props.handleItemMenuClose();
+            setDeleteDialogOpen(true);
+          }}
+        >
+          <DeleteIcon className="menu-icon" />
+          {t('common:delete')}
         </MenuItem>
       </Menu>
 
@@ -73,12 +79,14 @@ function ManageBooks(props) {
         title={t('manage:deleteBook')}
         text={t('manage:deleteBookText')}
         successText={t('manage:deleteBookSuccess')}
-        submit={data => Api.delete('books/' + props.bookId, data)}
+        submit={(data) => Api.delete('books/' + props.bookId, data)}
         open={deleteDialogOpen}
         onDelete={() => {
           // Remove from item list
-          const idx = props.results.findIndex(item => item.id === props.bookId);
-          if(idx > -1) {
+          const idx = props.results.findIndex(
+            (item) => item.id === props.bookId
+          );
+          if (idx > -1) {
             const newResults = Array.from(props.results);
             newResults.splice(idx, 1);
             props.setResults(newResults);
@@ -90,10 +98,10 @@ function ManageBooks(props) {
   );
 }
 
-export default function(props) {
+export default function (props) {
   const history = useHistory();
   const classes = useStyles();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasRequested, setHasRequested] = useState(false);
@@ -104,19 +112,19 @@ export default function(props) {
   const [itemMenuAnchorEl, setItemMenuAnchorEl] = useState(null);
   const [handlingBookId, setHandlingBookId] = useState(-1);
 
-  const onSearch = q => {
+  const onSearch = (q) => {
     const search = '?q=' + encodeURIComponent(q);
-    history.push({search});
+    history.push({ search });
     setHasRequested(true);
     setIsLoading(true);
     return Api.get('books' + search)
-      .then(res => {
+      .then((res) => {
         const data = res.data.data;
         postProcessResults(data);
         setResults(data);
         setIsLoading(false);
       })
-      .catch(e => {
+      .catch((e) => {
         setIsLoading(false);
         // TODO: error message
       });
@@ -124,7 +132,7 @@ export default function(props) {
 
   useEffect(() => {
     const q = getSearchFromQueryString();
-    if(q !== inputValue) {
+    if (q !== inputValue) {
       setInputValue(q);
       onSearch(q);
     }
@@ -133,7 +141,7 @@ export default function(props) {
   }, [window.location.search]);
 
   useEffect(() => {
-    if(inputValue) {
+    if (inputValue) {
       onSearch(inputValue);
     }
     // Silence false-positive
@@ -164,7 +172,8 @@ export default function(props) {
 
       {isLoading ? (
         <NormalSpinner />
-      ) : hasRequested ? (results.length === 0 ? (
+      ) : hasRequested ? (
+        results.length === 0 ? (
           <p className={classes.errorMsg}>{t('common:noResults')}</p>
         ) : (
           <>
@@ -172,7 +181,9 @@ export default function(props) {
               <List>
                 {results.map((item, idx) => (
                   <React.Fragment key={item.id}>
-                    {idx > 0 && (<Divider className={classes.divider} component="li" />)}
+                    {idx > 0 && (
+                      <Divider className={classes.divider} component="li" />
+                    )}
                     <BookResult
                       item={item}
                       showAvailability
@@ -180,7 +191,7 @@ export default function(props) {
                         <IconButton
                           aria-controls="item-menu"
                           aria-haspopup="true"
-                          onClick={e => handleItemMenuOpen(e, item.id)}
+                          onClick={(e) => handleItemMenuOpen(e, item.id)}
                         >
                           <MoreVertIcon />
                         </IconButton>

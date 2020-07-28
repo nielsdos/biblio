@@ -5,16 +5,16 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import ManageStyles from './ManageStyles';
 import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
-import {Field} from "formik";
-import Api from "../Api";
+import { Field } from 'formik';
+import Api from '../Api';
 import AddWithDialogButton from '../components/AddWithDialogButton';
-import {renderDateTimeField} from '../helpers/renderHelpers';
+import { renderDateTimeField } from '../helpers/renderHelpers';
 import RemoteTable from '../components/RemoteTable';
 import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 function BorrowerManagement(props) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const classes = ManageStyles();
   const tableRef = useRef();
 
@@ -24,11 +24,11 @@ function BorrowerManagement(props) {
         <AddWithDialogButton
           startIcon={<AddCircleIcon />}
           onSuccess={() => tableRef.current.onQueryChange()}
-          submit={data => Api.post('borrowers', data)}
+          submit={(data) => Api.post('borrowers', data)}
           title={t('manage:addBorrower')}
           successText={t('manage:addBorrowerSuccess')}
           defaultErrorField="first_name"
-          formContent={errors => {
+          formContent={(errors) => {
             return (
               <>
                 <Field
@@ -37,7 +37,7 @@ function BorrowerManagement(props) {
                       <InputAdornment position="start">
                         <PermIdentityOutlinedIcon />
                       </InputAdornment>
-                    )
+                    ),
                   }}
                   name="first_name"
                   type="text"
@@ -57,7 +57,7 @@ function BorrowerManagement(props) {
                       <InputAdornment position="start">
                         <PermIdentityOutlinedIcon />
                       </InputAdornment>
-                    )
+                    ),
                   }}
                   name="last_name"
                   type="text"
@@ -73,7 +73,7 @@ function BorrowerManagement(props) {
               </>
             );
           }}
-          formInitialValues={{first_name: '', last_name: ''}}
+          formInitialValues={{ first_name: '', last_name: '' }}
         />
       </div>
 
@@ -90,10 +90,13 @@ function BorrowerManagement(props) {
           },
         ]}
         editable={{
-          isEditable: _row => true,
+          isEditable: (_row) => true,
           onRowUpdate: (newData, oldData) => {
-            const {first_name, last_name} = newData;
-            return Api.put('borrowers/' + oldData.id, {first_name, last_name});
+            const { first_name, last_name } = newData;
+            return Api.put('borrowers/' + oldData.id, {
+              first_name,
+              last_name,
+            });
           },
         }}
         basePath="borrowers"
@@ -102,13 +105,13 @@ function BorrowerManagement(props) {
   );
 }
 
-export default function() {
-  const {t} = useTranslation();
+export default function () {
+  const { t } = useTranslation();
 
   return (
     <Container>
       <Title title={t('manage:borrowers')} />
       <BorrowerManagement />
     </Container>
-  )
+  );
 }

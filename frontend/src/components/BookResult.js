@@ -1,16 +1,16 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Link from '@material-ui/core/Link';
-import moment from "moment";
+import moment from 'moment';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   cover: {
     //width: '180px',
     //height: '271px',
@@ -24,13 +24,13 @@ const useStyles = makeStyles(theme => ({
  * Maybe add a padded string.
  * Used for date handling in post processing.
  *
- * @param {Object} item 
- * @param {Object} dest 
- * @param {string} src 
+ * @param {Object} item
+ * @param {Object} dest
+ * @param {string} src
  */
 function maybeAddPadded(item, dest, src) {
-  if(src) {
-    if(src < 10) {
+  if (src) {
+    if (src < 10) {
       item[dest] += '-0' + src;
     } else {
       item[dest] += '-' + src;
@@ -45,11 +45,11 @@ function maybeAddPadded(item, dest, src) {
  * @return {Object} The item
  */
 export function postProcessResult(item) {
-  if(item.first_available) {
+  if (item.first_available) {
     item.first_available_obj = moment(item.first_available);
     item.first_available = item.first_available_obj.local().format('LLL');
   }
-  item.authors = item.authors.map(a => a.name).join(', ');
+  item.authors = item.authors.map((a) => a.name).join(', ');
   item.publish_date = item.publish_year;
   maybeAddPadded(item, 'publish_date', item.publish_month);
   maybeAddPadded(item, 'publish_date', item.publish_day);
@@ -62,14 +62,14 @@ export function postProcessResult(item) {
  * @param {Array} array Result array
  */
 export function postProcessResults(array) {
-  for(const item of array) {
+  for (const item of array) {
     postProcessResult(item);
   }
 }
 
 // TODO: only show options & borrow when permitted
 export default (props) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const classes = useStyles();
   const item = props.item;
 
@@ -89,9 +89,7 @@ export default (props) => {
               color="textSecondary"
             >
               ISBN 13: {item.isbn13}
-              {item.isbn10 && (
-                <>, ISBN 10: {item.isbn10}</>
-              )}
+              {item.isbn10 && <>, ISBN 10: {item.isbn10}</>}
             </Typography>
             <Typography
               component="span"
@@ -106,7 +104,7 @@ export default (props) => {
               variant="caption"
               display="block"
               color="textSecondary"
-              style={{marginBottom: '1em'}}
+              style={{ marginBottom: '1em' }}
             >
               {item.publisher.name}, {item.publish_date}
             </Typography>
@@ -115,46 +113,55 @@ export default (props) => {
               component="p"
               variant="body2"
               color="textPrimary"
-              style={{marginBottom: '1em'}}
+              style={{ marginBottom: '1em' }}
             >
               {item.description}
             </Typography>
 
             {props.showAvailability && (
               <>
-                <Typography
-                  component="p"
-                  variant="caption"
-                >
+                <Typography component="p" variant="caption">
                   {item.available === 0 ? (
                     <Box color="error.main">
                       {t('common:noAvailable')}
                       <br />
                       {item.first_available_obj.isBefore() /* should've been available by now, but isn't */ ? (
-                        <>{t('common:firstAvailableExpired', {ts: item.first_available})}</>
+                        <>
+                          {t('common:firstAvailableExpired', {
+                            ts: item.first_available,
+                          })}
+                        </>
                       ) : (
-                        <>{t('common:firstAvailable', {ts: item.first_available})}</>
+                        <>
+                          {t('common:firstAvailable', {
+                            ts: item.first_available,
+                          })}
+                        </>
                       )}
                     </Box>
                   ) : (
                     <Box color="success.main">
-                      {t('common:availability', {available: item.available, number_of_copies: item.number_of_copies})}
+                      {t('common:availability', {
+                        available: item.available,
+                        number_of_copies: item.number_of_copies,
+                      })}
                     </Box>
                   )}
                 </Typography>
-
-                TODO: enkel weergeven als er nog capaciteit is &amp; permissie (en checken op server als het kan)
-                <Button
-                  variant="contained"
-                  color="primary"
-                >
+                TODO: enkel weergeven als er nog capaciteit is &amp; permissie
+                (en checken op server als het kan)
+                <Button variant="contained" color="primary">
                   {t('common:registerBorrow')}
                 </Button>
               </>
             )}
 
             {item.data_source === 'openlibrary' && (
-              <Link href={`https://openlibrary.org/search?q=ISBN:${item.isbn13}&mode=everything`} target="_blank" rel="noopener noreferrer">
+              <Link
+                href={`https://openlibrary.org/search?q=ISBN:${item.isbn13}&mode=everything`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {t('common:lookOnOpenLibrary')}
               </Link>
             )}

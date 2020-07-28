@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const API_BASE = "http://localhost/api/"; // TODO: make configurable and document
+export const API_BASE = 'http://localhost/api/'; // TODO: make configurable and document
 
 const Api = axios.create({
   baseURL: API_BASE,
-  responseType: "json",
-  withCredentials: true
+  responseType: 'json',
+  withCredentials: true,
 });
 
 /**
@@ -17,21 +17,21 @@ const Api = axios.create({
  */
 export function getErrorObjectFromResponse(e, t, defaultName) {
   if (e.response) {
-    const {status} = e.response;
-    if(status === 404) {
-      return {[defaultName]: t('error:notFound')};
-    } else if(status === 422) {
+    const { status } = e.response;
+    if (status === 404) {
+      return { [defaultName]: t('error:notFound') };
+    } else if (status === 422) {
       const out = {};
       const inp = e.response.data.errors;
-      for(const err in inp) {
+      for (const err in inp) {
         out[err] = inp[err].join('\n');
       }
       return out;
     } else {
-      return {[defaultName]: t('error:unknown')};
+      return { [defaultName]: t('error:unknown') };
     }
   } else {
-    return {[defaultName]: t('error:connection')};
+    return { [defaultName]: t('error:connection') };
   }
 }
 

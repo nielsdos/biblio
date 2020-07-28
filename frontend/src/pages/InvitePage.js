@@ -1,27 +1,27 @@
-import React, {useState} from 'react';
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import React, { useState } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import CardContent from "@material-ui/core/CardContent";
-import Card from "@material-ui/core/Card";
-import Alert from "@material-ui/lab/Alert";
-import {Field, Formik} from "formik";
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import CardContent from '@material-ui/core/CardContent';
+import Card from '@material-ui/core/Card';
+import Alert from '@material-ui/lab/Alert';
+import { Field, Formik } from 'formik';
 import VpnKeyOutlinedIcon from '@material-ui/icons/VpnKeyOutlined';
 import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
 import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';
 import { useTranslation } from 'react-i18next';
-import Api, {getErrorObjectFromResponse} from "../Api";
-import TopProgressBar from "../components/TopProgressBar";
+import Api, { getErrorObjectFromResponse } from '../Api';
+import TopProgressBar from '../components/TopProgressBar';
 import AuthStyles from './AuthStyles';
 
 const useStyles = AuthStyles;
 
 export default (props) => {
   const classes = useStyles();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [errorTexts, setErrorTexts] = useState({});
   const [isFinished, setIsFinished] = useState(false);
 
@@ -31,31 +31,44 @@ export default (props) => {
     <Container maxWidth="sm">
       <Card className={classes.paper}>
         <Formik
-          initialValues={{first_name: '', last_name: '', email: searchParams.get('email') || '', password: '', password_confirmation: ''}}
-          onSubmit={(data, {setSubmitting}) => {
+          initialValues={{
+            first_name: '',
+            last_name: '',
+            email: searchParams.get('email') || '',
+            password: '',
+            password_confirmation: '',
+          }}
+          onSubmit={(data, { setSubmitting }) => {
             setSubmitting(true);
             setErrorTexts({});
 
-            const sentData = Object.assign({
-              'token': searchParams.get('token') || '',
-            }, data);
+            const sentData = Object.assign(
+              {
+                token: searchParams.get('token') || '',
+              },
+              data
+            );
 
             Api.post('/auth/register', sentData)
-              .then(_ => {
+              .then((_) => {
                 setSubmitting(false);
                 setIsFinished(true);
               })
-              .catch(e => {
+              .catch((e) => {
                 setErrorTexts(getErrorObjectFromResponse(e, t, 'email'));
                 setSubmitting(false);
               });
-          }}>
-          {({isSubmitting, handleSubmit}) => (
+          }}
+        >
+          {({ isSubmitting, handleSubmit }) => (
             <>
               <TopProgressBar visible={isSubmitting} />
               <CardContent>
                 <div className={classes.horizontal}>
-                  <PersonAddOutlinedIcon color="secondary" className={classes.icon}/>
+                  <PersonAddOutlinedIcon
+                    color="secondary"
+                    className={classes.icon}
+                  />
                   <Typography component="h1" variant="h4">
                     {t('common:register')}
                   </Typography>
@@ -64,14 +77,16 @@ export default (props) => {
                   <p>{t('common:accountHasBeenCreated')}</p>
                 ) : (
                   <form onSubmit={handleSubmit}>
-                    {errorTexts.general && (<Alert severity="error">{errorTexts.general}</Alert>)}
+                    {errorTexts.general && (
+                      <Alert severity="error">{errorTexts.general}</Alert>
+                    )}
                     <Field
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
                             <EmailOutlinedIcon />
                           </InputAdornment>
-                        )
+                        ),
                       }}
                       name="email"
                       type="email"
@@ -91,7 +106,7 @@ export default (props) => {
                           <InputAdornment position="start">
                             <PermIdentityOutlinedIcon />
                           </InputAdornment>
-                        )
+                        ),
                       }}
                       name="first_name"
                       type="text"
@@ -111,7 +126,7 @@ export default (props) => {
                           <InputAdornment position="start">
                             <PermIdentityOutlinedIcon />
                           </InputAdornment>
-                        )
+                        ),
                       }}
                       name="last_name"
                       type="text"
@@ -130,7 +145,7 @@ export default (props) => {
                           <InputAdornment position="start">
                             <VpnKeyOutlinedIcon />
                           </InputAdornment>
-                        )
+                        ),
                       }}
                       name="password"
                       type="password"
@@ -150,7 +165,7 @@ export default (props) => {
                           <InputAdornment position="start">
                             <VpnKeyOutlinedIcon />
                           </InputAdornment>
-                        )
+                        ),
                       }}
                       name="password_confirmation"
                       type="password"
@@ -171,7 +186,9 @@ export default (props) => {
                       className={classes.submit}
                       size="large"
                       fullWidth
-                    >{t('common:register')}</Button>
+                    >
+                      {t('common:register')}
+                    </Button>
                   </form>
                 )}
               </CardContent>

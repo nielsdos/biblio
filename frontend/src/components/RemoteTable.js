@@ -15,7 +15,7 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import MaterialTable from 'material-table';
-import Api from "../Api";
+import Api from '../Api';
 import { useTranslation } from 'react-i18next';
 
 const tableIcons = {
@@ -23,23 +23,27 @@ const tableIcons = {
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
   Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-  DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+  DetailPanel: forwardRef((props, ref) => (
+    <ChevronRight {...props} ref={ref} />
+  )),
   Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
   Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
   Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
   FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
   LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
   NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
+  PreviousPage: forwardRef((props, ref) => (
+    <ChevronLeft {...props} ref={ref} />
+  )),
   ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
   Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
   SortArrow: forwardRef((props, ref) => <ArrowUpward {...props} ref={ref} />),
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
 export default (props) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <MaterialTable
@@ -72,36 +76,36 @@ export default (props) => {
           editTooltip: t('common:edit'),
         },
       }}
-      options={
-        Object.assign({
+      options={Object.assign(
+        {
           debounceInterval: 500,
           searchFieldVariant: 'outlined',
-          actionsColumnIndex: -1
-        }, props.options)
-      }
+          actionsColumnIndex: -1,
+        },
+        props.options
+      )}
       columns={props.columns}
       actions={props.actions}
       editable={props.editable}
-      data={query => {
+      data={(query) => {
         let url = props.basePath + '?';
         url += 'per_page=' + query.pageSize;
         url += '&page=' + (query.page + 1);
-        if(query.orderDirection !== '') {
+        if (query.orderDirection !== '') {
           url += '&order_dir=' + query.orderDirection;
           url += '&order_field=' + query.orderBy.field;
         }
-        if(query.search !== '') {
+        if (query.search !== '') {
           url += '&q=' + encodeURIComponent(query.search);
         }
-        return Api.get(url)
-          .then(res => {
-            const result = res.data;
-            return {
-              data: result.data,
-              page: result.page - 1,
-              totalCount: result.total,
-            };
-          });
+        return Api.get(url).then((res) => {
+          const result = res.data;
+          return {
+            data: result.data,
+            page: result.page - 1,
+            totalCount: result.total,
+          };
+        });
       }}
     />
   );

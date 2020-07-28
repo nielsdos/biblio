@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Redirect} from "react-router-dom";
+import { Route, Redirect } from 'react-router-dom';
 
 /**
  * Creates a new guarded route.
@@ -16,11 +16,11 @@ function guardedRoute(redirectPath) {
    * @param {object} props  The props
    * @return {React.component} The route component that guards access
    */
-  return function({ component, render, location, guard, ...rest }) {
+  return function ({ component, render, location, guard, ...rest }) {
     return (
       <Route
         {...rest}
-        render={props => {
+        render={(props) => {
           return guard ? (
             component !== undefined ? (
               React.createElement(component, props)
