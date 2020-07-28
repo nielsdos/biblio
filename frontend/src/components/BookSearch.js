@@ -8,7 +8,13 @@ import Api from "../Api";
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import CreateIcon from '@material-ui/icons/Create';
+import DeleteIcon from '@material-ui/icons/Delete';
 import SearchResultsDisclaimer from './SearchResultsDisclaimer';
 import BookResult, {postProcessResults} from './BookResult';
 
@@ -16,6 +22,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
+    marginBottom: theme.spacing(2),
   },
   errorMsg: {
     textAlign: 'center',
@@ -42,6 +49,7 @@ export default (props) => {
   const [hasRequested, setHasRequested] = useState(false);
   const [inputValue, setInputValue] = useState(getSearchFromQueryString());
   const [defaultValue] = useState(getSearchFromQueryString());
+  const [itemMenuAnchorEl, setItemMenuAnchorEl] = useState(null);
 
   const onSearch = q => {
     const search = '?q=' + encodeURIComponent(q);
@@ -79,6 +87,15 @@ export default (props) => {
     // eslint-disable-next-line
   }, []);
 
+  const handleItemMenuOpen = (event, itemId) => {
+    console.log(itemId);
+    setItemMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleItemMenuClose = () => {
+    setItemMenuAnchorEl(null);
+  };
+
   return (
     <>
       <div className={classes.root}>
@@ -91,6 +108,7 @@ export default (props) => {
           />
         </Grid>
       </div>
+
       {isLoading ? (
         <NormalSpinner />
       ) : hasRequested ? (results.length === 0 ? (
@@ -102,7 +120,19 @@ export default (props) => {
                 {results.map((item, idx) => (
                   <React.Fragment key={item.id}>
                     {idx > 0 && (<Divider className={classes.divider} component="li" />)}
-                    <BookResult item={item} showAvailability />
+                    <BookResult
+                      item={item}
+                      showAvailability
+                      addendum={
+                        <IconButton
+                          aria-controls="item-menu"
+                          aria-haspopup="true"
+                          onClick={e => handleItemMenuOpen(e, item.id)}
+                        >
+                          <MoreVertIcon />
+                        </IconButton>
+                      }
+                    />
                   </React.Fragment>
                 ))}
               </List>
@@ -113,6 +143,21 @@ export default (props) => {
       ) : (
         <></>
       )}
+
+      <Menu
+        id="item-menu"
+        anchorEl={itemMenuAnchorEl}
+        keepMounted
+        open={Boolean(itemMenuAnchorEl)}
+        onClose={handleItemMenuClose}
+      >
+        <MenuItem onClick={() => alert('hi')}>
+          <CreateIcon className="menu-icon" />{t('common:edit')}
+        </MenuItem>
+        <MenuItem onClick={() => alert('hi')}>
+          <DeleteIcon className="menu-icon" />{t('common:delete')}
+        </MenuItem>
+      </Menu>
     </>
   );
 }

@@ -65,6 +65,7 @@ export function postProcessResults(array) {
   }
 }
 
+// TODO: only show options & borrow when permitted
 export default (props) => {
   const {t} = useTranslation();
   const classes = useStyles();
@@ -75,7 +76,7 @@ export default (props) => {
       <ListItemAvatar>
         <img alt={item.title} className={classes.cover} src={item.cover_url} />
       </ListItemAvatar>
-      {<ListItemText
+      <ListItemText
         primary={item.title}
         secondary={
           <>
@@ -140,7 +141,7 @@ export default (props) => {
                   )}
                 </Typography>
 
-                TODO: enkel weergeven als er nog capaciteit is (en checken op server als het kan)
+                TODO: enkel weergeven als er nog capaciteit is &amp; permissie (en checken op server als het kan)
                 <Button
                   variant="contained"
                   color="primary"
@@ -157,8 +158,8 @@ export default (props) => {
             )}
           </>
         }
-        />
-      }
+      />
+      {props.addendum}
     </ListItem>
   );
 };

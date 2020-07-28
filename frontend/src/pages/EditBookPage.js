@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import Container from '@material-ui/core/Container';
 import Title from '../components/Title';
 import { useTranslation } from 'react-i18next';
@@ -10,9 +10,10 @@ export default function() {
   // TODO
   return (
     <Container>
-      <Title title={t('manage:addBook')} />
+      <Title title={t('manage:editBook')} />
       <BookAddEditForm
-        add
+        add={false}
+        isbn={'123'} // TODO
       />
     </Container>
   );

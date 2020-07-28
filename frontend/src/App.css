@@ -9,6 +9,14 @@
     }
 }
 
+.MuiBottomNavigation-root {
+    background-color: initial !important;
+}
+
+.menu-icon {
+    margin-right: 8px;
+}
+
 .navbar {
     position: sticky;
     z-index: 100;

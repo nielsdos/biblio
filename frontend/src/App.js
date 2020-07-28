@@ -5,6 +5,9 @@ import ForgotPasswordActionPage from "./pages/ForgotPasswordActionPage";
 import InvitePage from "./pages/InvitePage";
 import HomePage from "./pages/HomePage";
 import BorrowerPage from "./pages/BorrowerPage";
+import UserPage from './pages/UserPage';
+import AddBookPage from './pages/AddBookPage';
+import EditBookPage from './pages/EditBookPage';
 import NotFoundPage from "./pages/NotFoundPage";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
@@ -20,9 +23,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import {LoginRedirectedRoute, HomeRedirectedRoute} from "./helpers/routeHelpers";
 import moment from "moment";
 import nl from 'moment/locale/nl';
-import UserPage from './pages/UserPage';
 import './App.css';
-import AddBookPage from './pages/AddBookPage';
 
 moment.locale('nl', nl);
 
@@ -127,6 +128,7 @@ function App() {
               <LoginRedirectedRoute exact guard={authState.loggedIn} path="/users" component={UserPage} />
               <LoginRedirectedRoute exact guard={authState.loggedIn} path="/borrowers" component={BorrowerPage} />
               <LoginRedirectedRoute exact guard={authState.loggedIn} path="/add-book" component={AddBookPage} />
+              <LoginRedirectedRoute exact guard={authState.loggedIn} path="/books/{id}" component={EditBookPage} />
               <Route component={NotFoundPage} />
             </Switch>
           </>
