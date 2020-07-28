@@ -55,37 +55,44 @@ function ManageBooks(props) {
         open={Boolean(props.itemMenuAnchorEl)}
         onClose={props.handleItemMenuClose}
       >
-        <MenuItem
-          onClick={() => {
-            props.handleItemMenuClose();
-            history.push('/books/' + props.bookId + '/edit');
-          }}
-        >
-          <CreateIcon className="menu-icon" />
-          {t('common:edit')}
-        </MenuItem>
-        <MenuItem
-          onClick={(_e) => {
-            props.handleItemMenuClose();
-            setDeleteDialogOpen(true);
-          }}
-        >
-          <DeleteIcon className="menu-icon" />
-          {t('common:delete')}
-        </MenuItem>
+        {props.item?.can_update && (
+          <MenuItem
+            onClick={() => {
+              props.handleItemMenuClose();
+              props.onDone();
+              history.push('/books/' + props.item.id + '/edit');
+            }}
+          >
+            <CreateIcon className="menu-icon" />
+            {t('common:edit')}
+          </MenuItem>
+        )}
+        {props.item?.can_delete && (
+          <MenuItem
+            onClick={(_e) => {
+              props.handleItemMenuClose();
+              setDeleteDialogOpen(true);
+            }}
+          >
+            <DeleteIcon className="menu-icon" />
+            {t('common:delete')}
+          </MenuItem>
+        )}
       </Menu>
 
       <DeleteDialog
         title={t('manage:deleteBook')}
         text={t('manage:deleteBookText')}
         successText={t('manage:deleteBookSuccess')}
-        submit={(data) => Api.delete('books/' + props.bookId, data)}
+        submit={(data) => Api.delete('books/' + props.item.id, data)}
         open={deleteDialogOpen}
         onDelete={() => {
           // Remove from item list
           props.setResults(
-            props.results.filter((item) => item.id !== props.bookId)
+            props.results.filter((item) => item.id !== props.item.id)
           );
+
+          props.onDone();
         }}
         onClose={() => setDeleteDialogOpen(false)}
       />
@@ -106,7 +113,7 @@ export default function (props) {
 
   // Management stuff
   const [itemMenuAnchorEl, setItemMenuAnchorEl] = useState(null);
-  const [handlingBookId, setHandlingBookId] = useState(-1);
+  const [handlingItem, setHandlingItem] = useState(undefined);
 
   const onSearch = (q) => {
     const search = '?q=' + encodeURIComponent(q);
@@ -144,8 +151,8 @@ export default function (props) {
     // eslint-disable-next-line
   }, []);
 
-  const handleItemMenuOpen = (event, itemId) => {
-    setHandlingBookId(itemId);
+  const handleItemMenuOpen = (event, item) => {
+    setHandlingItem(item);
     setItemMenuAnchorEl(event.currentTarget);
   };
 
@@ -184,13 +191,15 @@ export default function (props) {
                       item={item}
                       showAvailability
                       addendum={
-                        <IconButton
-                          aria-controls="item-menu"
-                          aria-haspopup="true"
-                          onClick={(e) => handleItemMenuOpen(e, item.id)}
-                        >
-                          <MoreVertIcon />
-                        </IconButton>
+                        (item.can_update || item.can_delete) && (
+                          <IconButton
+                            aria-controls="item-menu"
+                            aria-haspopup="true"
+                            onClick={(e) => handleItemMenuOpen(e, item)}
+                          >
+                            <MoreVertIcon />
+                          </IconButton>
+                        )
                       }
                     />
                   </React.Fragment>
@@ -206,7 +215,8 @@ export default function (props) {
 
       <ManageBooks
         itemMenuAnchorEl={itemMenuAnchorEl}
-        bookId={handlingBookId}
+        item={handlingItem}
+        onDone={() => setHandlingItem(undefined)}
         results={results}
         setResults={setResults}
         handleItemMenuClose={handleItemMenuClose}

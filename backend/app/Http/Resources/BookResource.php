@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class BookResource extends JsonResource {
     /**
@@ -30,6 +31,10 @@ class BookResource extends JsonResource {
             'borrows' => BorrowResource::collection($this->borrowers),
             'isbn13' => $this->isbn13,
             'isbn10' => $this->when($this->isbn10, $this->isbn10),
+            // Permission stuff
+            'can_update' => Gate::allows('update', $this->resource),
+            'can_delete' => Gate::allows('delete', $this->resource),
+            // TODO: borrow perms?
         ];
 
         if($borrowersCount > 0) {
