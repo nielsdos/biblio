@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\BookResource;
 use App\Http\Requests\LookupISBNRequest;
 use App\Http\Requests\CreateBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 use App\Http\Resources\BookSuggestionResource;
 use App\Publisher;
 use App\Book;
@@ -193,7 +194,18 @@ class BookController extends Controller {
         return response()->json([], 201);
     }
 
-    public function delete(Book $book) {
+    public function update(UpdateBookRequest $request, Book $book) {
+        // TODO: In the future, we would need the option to change the data source if requested
+        // or to sync, but not now.
+        $fields = $request->validated();
+
+        $book->number_of_copies = $fields['number_of_copies'];
+        $book->save();
+
+        return response()->noContent();
+    }
+
+    public function destroy(Book $book) {
         $book->delete();
         return response()->noContent();
     }

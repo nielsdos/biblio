@@ -23,4 +23,5 @@ Route::post('/books/lookup', 'BookController@lookup');
 Route::post('/books', 'BookController@create');
 Route::get('/books/suggest', 'BookController@suggest');
 Route::get('/books/{book}', 'BookController@show');
-Route::delete('/books/{book}', 'BookController@delete');
+Route::put('/books/{book}', 'BookController@update');
+Route::delete('/books/{book}', 'BookController@destroy');

@@ -49,7 +49,7 @@ class BookPolicy {
      * @return mixed
      */
     public function update(User $user, Book $book) {
-        return false;
+        return true;
     }
 
     /**
@@ -60,7 +60,7 @@ class BookPolicy {
      * @return mixed
      */
     public function delete(User $user, Book $book) {
-        return false;
+        return true;
     }
 
     /**

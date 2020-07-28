@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -139,10 +139,7 @@ export default function (props) {
             setSubmitting(true);
             setAddErrorTexts({});
 
-            Api.post('books', {
-              isbn: bookData.isbn13,
-              number_of_copies: data.number_of_copies,
-            })
+            props.submit(bookData, data)
               .then((_) => {
                 setSubmitting(false);
                 history.push({

@@ -36,6 +36,11 @@ export default function () {
           add={false}
           bookData={bookData}
           initialAddValues={{ number_of_copies: bookData.number_of_copies }}
+          submit={(_bookData, inputData) => {
+            return Api.put('books/' + id, {
+              number_of_copies: inputData.number_of_copies,
+            });
+          }}
         />
       ) : (
         <NormalSpinner />
