@@ -181,4 +181,9 @@ class BookController extends Controller {
 
         return response()->json([], 201);
     }
+
+    public function delete(Book $book) {
+        $book->delete();
+        return response()->noContent();
+    }
 }

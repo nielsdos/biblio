@@ -17,6 +17,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SearchResultsDisclaimer from './SearchResultsDisclaimer';
 import BookResult, {postProcessResults} from './BookResult';
+import DeleteDialog from './DeleteDialog';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,7 +50,12 @@ export default (props) => {
   const [hasRequested, setHasRequested] = useState(false);
   const [inputValue, setInputValue] = useState(getSearchFromQueryString());
   const [defaultValue] = useState(getSearchFromQueryString());
+
+  // Management
+  // TODO: split me?
   const [itemMenuAnchorEl, setItemMenuAnchorEl] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [handlingBookId, setHandlingBookId] = useState(-1);
 
   const onSearch = q => {
     const search = '?q=' + encodeURIComponent(q);
@@ -88,7 +94,7 @@ export default (props) => {
   }, []);
 
   const handleItemMenuOpen = (event, itemId) => {
-    console.log(itemId);
+    setHandlingBookId(itemId);
     setItemMenuAnchorEl(event.currentTarget);
   };
 
@@ -151,13 +157,37 @@ export default (props) => {
         open={Boolean(itemMenuAnchorEl)}
         onClose={handleItemMenuClose}
       >
-        <MenuItem onClick={() => alert('hi')}>
+        <MenuItem onClick={() => {
+          handleItemMenuClose();
+          alert('hi');
+        }}>
           <CreateIcon className="menu-icon" />{t('common:edit')}
         </MenuItem>
-        <MenuItem onClick={() => alert('hi')}>
+        <MenuItem onClick={_e => {
+          handleItemMenuClose();
+          setDeleteDialogOpen(true);
+        }}>
           <DeleteIcon className="menu-icon" />{t('common:delete')}
         </MenuItem>
       </Menu>
+
+      <DeleteDialog
+        title={t('manage:deleteBook')}
+        text={t('manage:deleteBookText')}
+        successText={t('manage:deleteBookSuccess')}
+        submit={data => Api.delete('books/' + handlingBookId, data)}
+        open={deleteDialogOpen}
+        onClose={() => {
+          setDeleteDialogOpen(false);
+          // Remove from item list
+          const idx = results.findIndex(item => item.id === handlingBookId);
+          if(idx > -1) {
+            const newResults = Array.from(results);
+            newResults.splice(idx, 1);
+            setResults(newResults);
+          }
+        }}
+      />
     </>
   );
 }

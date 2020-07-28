@@ -17,5 +17,8 @@
     "invitedOn": "Uitgenodigd op",
     "deleteInvite": "Uitnodiging verwijderen",
     "deleteInviteText": "Weet u zeker dat u deze uitnodiging wilt verwijderen?",
-    "deleteInviteSuccess": "Uitnodiging verwijderd"
+    "deleteInviteSuccess": "Uitnodiging verwijderd",
+    "deleteBook": "Boek verwijderen",
+    "deleteBookText": "Weet u zeker dat u dit boek wil verwijderen? Alle openstaande uitleningen zullen hierdoor ook verwijderd worden!",
+    "deleteBookSuccess": "Boek verwijderd"
 }
