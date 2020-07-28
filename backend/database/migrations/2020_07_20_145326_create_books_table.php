@@ -16,8 +16,8 @@ class CreateBooksTable extends Migration {
             $table->bigIncrements('id');
             // For convenience for searching & caching, we store both.
             // A computed column would still be stored on disk anyway.
-            $table->char('isbn13', 13);
-            $table->char('isbn10', 10)->nullable();
+            $table->char('isbn13', 13)->unique();
+            $table->char('isbn10', 10)->unique()->nullable();
             $table->enum('data_source', ['openlibrary']);
             $table->string('title');
             $table->unsignedBigInteger('publisher_id');
