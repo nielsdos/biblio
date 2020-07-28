@@ -83,14 +83,9 @@ function ManageBooks(props) {
         open={deleteDialogOpen}
         onDelete={() => {
           // Remove from item list
-          const idx = props.results.findIndex(
-            (item) => item.id === props.bookId
+          props.setResults(
+            props.results.filter((item) => item.id !== props.bookId)
           );
-          if (idx > -1) {
-            const newResults = Array.from(props.results);
-            newResults.splice(idx, 1);
-            props.setResults(newResults);
-          }
         }}
         onClose={() => setDeleteDialogOpen(false)}
       />
