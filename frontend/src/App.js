@@ -5,7 +5,7 @@ import ForgotPasswordActionPage from './pages/ForgotPasswordActionPage';
 import InvitePage from './pages/InvitePage';
 import HomePage from './pages/HomePage';
 import BorrowerPage from './pages/BorrowerPage';
-import BorrowsSearchPage from './pages/BorrowsSearchPage';
+import BorrowsPage from './pages/BorrowsPage';
 import UserPage from './pages/UserPage';
 import AddBookPage from './pages/AddBookPage';
 import EditBookPage from './pages/EditBookPage';
@@ -164,7 +164,7 @@ function App() {
                 exact
                 guard={authState.loggedIn}
                 path="/borrows"
-                component={BorrowsSearchPage}
+                component={BorrowsPage}
               />
               <LoginRedirectedRoute
                 exact
