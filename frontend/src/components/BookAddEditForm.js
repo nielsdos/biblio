@@ -4,12 +4,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import Alert from '@material-ui/lab/Alert';
-import MenuBookIcon from '@material-ui/icons/MenuBook';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import SearchIcon from '@material-ui/icons/Search';
 import SaveIcon from '@material-ui/icons/Save';
@@ -18,12 +18,9 @@ import TopProgressBar from '../components/TopProgressBar';
 import { Field, Formik } from 'formik';
 import Api, { getErrorObjectFromResponse } from '../Api';
 import BookResult, { postProcessResult } from '../components/BookResult';
+import ManageStyles from './ManageStyles';
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
   rootAddBook: {
     overflowY: 'hidden',
   },
@@ -38,16 +35,13 @@ const useStyles = makeStyles((theme) => ({
   dataSource: {
     margin: theme.spacing(1, 0),
   },
-  description: {
-    marginBottom: theme.spacing(2),
-    whiteSpace: 'pre-line',
-  },
 }));
 
 // TODO: adding should be nicer and allow own data source
 export default function (props) {
   const { t } = useTranslation();
   const history = useHistory();
+  const manageClasses = ManageStyles();
   const classes = useStyles();
   const [isSearching, setIsSearching] = useState(false);
   const [searchErrorTexts, setSearchErrorTexts] = useState({});
@@ -77,8 +71,8 @@ export default function (props) {
   return (
     <>
       {props.add && (
-        <Paper className={classes.paper}>
-          <Typography className={classes.description} variant="body1">
+        <Paper className={manageClasses.paper}>
+          <Typography className={manageClasses.description} variant="body1">
             {t('manage:addBookText')}
           </Typography>
           <Formik
@@ -157,12 +151,12 @@ export default function (props) {
             <Paper className={classes.rootAddBook}>
               <TopProgressBar visible={isSubmitting} />
               {addErrorTexts.isbn && (
-                <div className={`${classes.paper} ${classes.generalError}`}>
+                <div className={`${manageClasses.paper} ${classes.generalError}`}>
                   <Alert severity="error">{addErrorTexts.isbn}</Alert>
                 </div>
               )}
               <BookResult item={bookData} showAvailability={false} />
-              <div className={`${classes.paper} ${classes.extraInfo}`}>
+              <div className={`${manageClasses.paper} ${classes.extraInfo}`}>
                 <form onSubmit={handleSubmit}>
                   <Field
                     InputProps={{

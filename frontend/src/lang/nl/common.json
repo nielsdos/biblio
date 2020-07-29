@@ -30,7 +30,6 @@
   "isbn": "ISBN nummer",
   "numberOfCopies": "Aantal exemplaren",
   "dataSource": "Data bron",
-  "registerBorrow": "Uitlenen...",
   "loading": "Laden...",
   "labelDisplayedRows": "{from} - {to} van {count}",
   "labelRowsSelect": "rijen",
@@ -40,5 +39,6 @@
   "nextTooltip": "Volgende pagina",
   "lastTooltip": "Laatste pagina",
   "searchResultsDisclaimer": "Resultaten worden mogelijk gemaakt door API's van derden, zoals Open Library.",
-  "lookOnOpenLibrary": "Bekijken op Open Library"
+  "lookOnOpenLibrary": "Bekijken op Open Library",
+  "borrower": "Lener"
 }

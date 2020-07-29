@@ -4,7 +4,7 @@ import Title from '../components/Title';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import ManageStyles from './ManageStyles';
+import ManageStyles from '../components/ManageStyles';
 import TextField from '@material-ui/core/TextField';
 import { Field } from 'formik';
 import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';

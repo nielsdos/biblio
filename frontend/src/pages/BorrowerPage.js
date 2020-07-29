@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import Container from '@material-ui/core/Container';
 import Title from '../components/Title';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import ManageStyles from './ManageStyles';
+import ManageStyles from '../components/ManageStyles';
 import { useTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
 import { Field } from 'formik';

@@ -43,7 +43,7 @@ class BookController extends Controller {
         $q = (string) $request->query('q');
 
         return BookSuggestionResource::collection(
-            Book::search($q)->limit(10)->get()
+            Book::search($q)->limit(10)->get(['id', 'title', 'isbn13', 'isbn10'])
         );
     }
 

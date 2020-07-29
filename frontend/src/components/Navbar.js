@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// See `translatePathToKey`
 const PATH_MAP = new Map();
 PATH_MAP.set('/add-book', '/');
 PATH_MAP.set('/books', '/');

@@ -17,6 +17,7 @@ Route::post('/users/invites', 'InviteController@create');
 Route::delete('/users/invites/{userInvite}', 'InviteController@destroy');
 Route::get('/borrowers', 'BorrowerController@index');
 Route::post('/borrowers', 'BorrowerController@create');
+Route::get('/borrowers/suggest', 'BorrowerController@suggest');
 Route::put('/borrowers/{borrower}', 'BorrowerController@update');
 Route::get('/books', 'BookController@index');
 Route::post('/books/lookup', 'BookController@lookup');

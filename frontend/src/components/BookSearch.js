@@ -18,6 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import SearchResultsDisclaimer from './SearchResultsDisclaimer';
 import BookResult, { postProcessResults } from './BookResult';
 import DeleteDialog from './DeleteDialog';
+import { AuthContext } from '../AuthContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -105,6 +106,7 @@ export default function (props) {
   const location = useLocation();
   const classes = useStyles();
   const { t } = useTranslation();
+
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasRequested, setHasRequested] = useState(false);
@@ -213,14 +215,20 @@ export default function (props) {
         <></>
       )}
 
-      <ManageBooks
-        itemMenuAnchorEl={itemMenuAnchorEl}
-        item={handlingItem}
-        onDone={() => setHandlingItem(undefined)}
-        results={results}
-        setResults={setResults}
-        handleItemMenuClose={handleItemMenuClose}
-      />
+      <AuthContext.Consumer>
+        {(authState) =>
+          authState.loggedIn && (
+            <ManageBooks
+              itemMenuAnchorEl={itemMenuAnchorEl}
+              item={handlingItem}
+              onDone={() => setHandlingItem(undefined)}
+              results={results}
+              setResults={setResults}
+              handleItemMenuClose={handleItemMenuClose}
+            />
+          )
+        }
+      </AuthContext.Consumer>
     </>
   );
 }

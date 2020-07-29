@@ -12,7 +12,7 @@ trait SearchTrait {
         $orderField = (string) $request->query('order_field');
         $q = (string) $request->query('q');
 
-        $source = $this->getSearchModel()::search($q, $orderDir, $orderField);
+        $source = $this->getSearchModel()::search($q)->sort($orderDir, $orderField);
 
         if($page < 1) {
             $page = 1;

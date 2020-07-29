@@ -6,7 +6,7 @@ import Title from '../components/Title';
 import { AuthContext } from '../AuthContext';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { useTranslation } from 'react-i18next';
-import ManageStyles from './ManageStyles';
+import ManageStyles from '../components/ManageStyles';
 import { Link } from 'react-router-dom';
 
 function Toolbar() {

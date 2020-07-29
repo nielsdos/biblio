@@ -15,11 +15,9 @@ trait SearchTrait {
      *
      * @param Builder $query
      * @param string $term
-     * @param string $orderDir
-     * @param string $orderField
      * @return Builder
      */
-    public function scopeSearch(Builder $query, string $term, string $orderDir, string $orderField): Builder {
+    public function scopeSearch(Builder $query, string $term): Builder {
         $query = $this->prepareSearchQuery($query);
 
         if($term !== '') {
@@ -28,6 +26,18 @@ trait SearchTrait {
             $query = $query->whereRaw("MATCH ({$cols}) AGAINST (? IN BOOLEAN MODE)", $term);
         }
 
+        return $query;
+    }
+
+    /**
+     * Sort
+     *
+     * @param Builder $query
+     * @param string $orderDir
+     * @param string $orderField
+     * @return Builder
+     */
+    public function scopeSort(Builder $query, string $orderDir, string $orderField): Builder {
         if(($orderDir === 'asc' || $orderDir === 'desc')
             && in_array($orderField, $this->sortable)) {
             $query = $query->orderBy($orderField, $orderDir);

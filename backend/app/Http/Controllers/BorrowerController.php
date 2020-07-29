@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Resources\BorrowerResource;
 use App\Borrower;
 use App\Http\Requests\CreateBorrowerRequest;
+use App\Http\Resources\BorrowerSuggestionResource;
+use Illuminate\Http\Request;
 
 class BorrowerController extends Controller {
     use SearchTrait;
@@ -30,6 +32,16 @@ class BorrowerController extends Controller {
         ]);
 
         return response()->json([], 201);
+    }
+
+    public function suggest(Request $request) {
+        $this->authorize('viewAny', Borrower::class);
+
+        $q = (string) $request->query('q');
+
+        return BorrowerSuggestionResource::collection(
+            Borrower::search($q)->limit(10)->get(['id', 'first_name', 'last_name'])
+        );
     }
 
     public function update(CreateBorrowerRequest $request, Borrower $borrower) {

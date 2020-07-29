@@ -6,6 +6,8 @@
   "users": "Beheerders",
   "borrowers": "Leners",
   "borrows": "Uitleningen",
+  "borrowText": "Kies de lener waarvoor u een uitlening wilt toevoegen.\nU kan zoeken op naam of andere informatie van de persoon.",
+  "borrowerSelect": "Lener selecteren",
   "addBorrower": "Lener toevoegen",
   "addBorrowerSuccess": "Lener toegevoegd",
   "invites": "Openstaande uitnodigingen",

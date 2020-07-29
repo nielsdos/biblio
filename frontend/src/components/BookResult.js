@@ -2,7 +2,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
@@ -67,7 +66,6 @@ export function postProcessResults(array) {
   }
 }
 
-// TODO: only show options & borrow when permitted
 export default (props) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -148,11 +146,7 @@ export default (props) => {
                     </Box>
                   )}
                 </Typography>
-                TODO: enkel weergeven als er nog capaciteit is &amp; permissie
-                (en checken op server als het kan)
-                <Button variant="contained" color="primary">
-                  {t('common:registerBorrow')}
-                </Button>
+                TODO: tonen wie in bezit is
               </>
             )}
 
