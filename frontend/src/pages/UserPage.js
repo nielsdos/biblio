@@ -11,8 +11,8 @@ import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Api from '../Api';
 import AddWithDialogButton from '../components/AddWithDialogButton';
-import { renderDateTimeField } from '../helpers/renderHelpers';
-import RemoteTable from '../components/RemoteTable';
+import { renderCreatedAtField } from '../helpers/renderHelpers';
+import { RemoteTable } from '../components/RemoteTable';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import DeleteDialog from '../components/DeleteDialog';
 
@@ -77,7 +77,7 @@ function UserManagement(props) {
           {
             title: t('common:registeredOn'),
             field: 'created_at',
-            render: renderDateTimeField,
+            render: renderCreatedAtField,
           },
         ]}
         basePath="users"
@@ -119,7 +119,7 @@ function InviteManagement(props) {
           {
             title: t('manage:invitedOn'),
             field: 'created_at',
-            render: renderDateTimeField,
+            render: renderCreatedAtField,
           },
         ]}
         actions={[

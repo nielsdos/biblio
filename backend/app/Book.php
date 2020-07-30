@@ -11,7 +11,7 @@ class Book extends Model {
     protected $searchable = ['title', 'isbn13', 'isbn10'];
     protected $sortable = [];
 
-    public function borrowers() {
+    public function currentBorrowers() {
         return $this->belongsToMany('App\Borrower', 'book_borrowers')
                     ->withPivot('start', 'end', 'returned')
                     ->wherePivot('returned', '=', null);

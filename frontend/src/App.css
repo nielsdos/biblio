@@ -18,7 +18,6 @@
 }
 
 .navbar {
-  position: sticky;
   z-index: 100;
   background-color: #fff;
 }
@@ -27,17 +26,39 @@ body {
   margin-bottom: 72px !important;
 }
 
-.navbar-bottom {
-  position: fixed;
-  bottom: 0;
-  box-shadow: 0 -3px 1px -2px rgba(0, 0, 0, 0.075),
-    0 -2px 2px 0 rgba(0, 0, 0, 0.05), 0 -1px 5px 0 rgba(0, 0, 0, 0.045);
+.navbar-tabs {
+  z-index: 99;
 }
 
-.navbar-top {
-  top: 0;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.075),
-    0 2px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 5px 0 rgba(0, 0, 0, 0.045);
+@media (max-width: 575px) {
+  .navbar {
+    position: fixed;
+    bottom: 0;
+    box-shadow: 0 -3px 1px -2px rgba(0, 0, 0, 0.075),
+      0 -2px 2px 0 rgba(0, 0, 0, 0.05), 0 -1px 5px 0 rgba(0, 0, 0, 0.045);
+  }
+
+  .navbar-tabs {
+    position: initial;
+  }
+}
+
+@media (min-width: 576px) {
+  /* Hide shadow of first navbar if we have a second one */
+  .navbar:first-of-type:not(:nth-last-child(2)) {
+    box-shadow: none;
+  }
+
+  .navbar {
+    position: sticky;
+    top: 0;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.075),
+      0 2px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 5px 0 rgba(0, 0, 0, 0.045);
+  }
+
+  .navbar-tabs {
+    top: 8px; /* aligns with bottom of the navbar, hack for shadow effect */
+  }
 }
 
 html {

@@ -14,7 +14,7 @@ class BookResource extends JsonResource {
      * @return array
      */
     public function toArray($request) {
-        $borrowersCount = $this->borrowers->count();
+        $borrowersCount = $this->currentBorrowers->count();
         $data = [
             'id' => $this->id,
             'available' => $this->number_of_copies - $borrowersCount,
@@ -28,18 +28,17 @@ class BookResource extends JsonResource {
             'description' => $this->description,
             'authors' => NamedResource::collection($this->authors),
             'publisher' => new NamedResource($this->publisher),
-            'borrows' => BorrowResource::collection($this->borrowers),
+            'borrows' => EmbeddedBorrowResource::collection($this->currentBorrowers),
             'isbn13' => $this->isbn13,
             'isbn10' => $this->when($this->isbn10, $this->isbn10),
             // Permission stuff
             'can_update' => Gate::allows('update', $this->resource),
             'can_delete' => Gate::allows('delete', $this->resource),
-            // TODO: borrow perms?
         ];
 
         if($borrowersCount > 0) {
-            $firstAvailable = Carbon::parse($this->borrowers[0]->pivot->end);
-            foreach($this->borrowers as $borrower) {
+            $firstAvailable = Carbon::parse($this->currentBorrowers[0]->pivot->end);
+            foreach($this->currentBorrowers as $borrower) {
                 $date = Carbon::parse($borrower->pivot->end);
                 if($date->lt($firstAvailable)) {
                     $firstAvailable = $date;

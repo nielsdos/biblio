@@ -8,8 +8,8 @@ import TextField from '@material-ui/core/TextField';
 import { Field } from 'formik';
 import Api from '../Api';
 import AddWithDialogButton from '../components/AddWithDialogButton';
-import { renderDateTimeField } from '../helpers/renderHelpers';
-import RemoteTable from '../components/RemoteTable';
+import { renderCreatedAtField } from '../helpers/renderHelpers';
+import { RemoteTable } from '../components/RemoteTable';
 import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
@@ -86,7 +86,7 @@ function BorrowerManagement(props) {
             title: t('common:registeredOn'),
             field: 'created_at',
             editable: 'never',
-            render: renderDateTimeField,
+            render: renderCreatedAtField,
           },
         ]}
         editable={{

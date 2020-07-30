@@ -25,7 +25,7 @@ class BookController extends Controller {
         }
 
         return BookResource::collection(
-            Book::with(['authors', 'publisher', 'borrowers'])
+            Book::with(['authors', 'publisher', 'currentBorrowers'])
                 ->search($q)
                 ->limit(10)
                 ->get()
@@ -34,7 +34,7 @@ class BookController extends Controller {
 
     public function show(int $book) {
         return new BookResource(
-            Book::with(['authors', 'publisher', 'borrowers'])
+            Book::with(['authors', 'publisher', 'currentBorrowers'])
                 ->findOrFail($book)
         );
     }

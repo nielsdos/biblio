@@ -161,7 +161,6 @@ function App() {
                 component={BorrowerPage}
               />
               <LoginRedirectedRoute
-                exact
                 guard={authState.loggedIn}
                 path="/borrows"
                 component={BorrowsPage}

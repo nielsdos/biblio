@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Tooltip from '@material-ui/core/Tooltip';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import Grid from '@material-ui/core/Grid';
@@ -62,7 +61,6 @@ export default function Navbar() {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation(); // auto-updates for us, history.location doesn't
-  const matches = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleOpen = (event) => {
@@ -80,7 +78,7 @@ export default function Navbar() {
       {(authState) => (
         <Grid
           justify-content="space-between"
-          className={'navbar ' + (matches ? 'navbar-bottom' : 'navbar-top')}
+          className="navbar"
           container
         >
           <Grid item className={classes.flex}>
@@ -96,7 +94,7 @@ export default function Navbar() {
                 <BottomNavigationAction
                   label={t('manage:borrows')}
                   value="/borrows"
-                  to="/borrows"
+                  to="/borrows/by-borrower"
                   component={Link}
                   icon={<PanToolIcon />}
                 />

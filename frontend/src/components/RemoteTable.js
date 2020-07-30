@@ -42,48 +42,55 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-export default (props) => {
+function getDefaultOptions() {
+  return {
+    debounceInterval: 500,
+    searchFieldVariant: 'outlined',
+    actionsColumnIndex: -1,
+    padding: 'dense',
+  };
+}
+
+function getLocalization(t) {
+  return {
+    pagination: {
+      labelDisplayedRows: t('common:labelDisplayedRows'),
+      labelRowsSelect: t('common:labelRowsSelect'),
+      labelRowsPerPage: t('common:labelRowsPerPage'),
+      firstAriaLabel: t('common:firstTooltip'),
+      firstTooltip: t('common:firstTooltip'),
+      previousAriaLabel: t('common:previousTooltip'),
+      previousTooltip: t('common:previousTooltip'),
+      nextAriaLabel: t('common:nextTooltip'),
+      nextTooltip: t('common:nextTooltip'),
+      lastAriaLabel: t('common:lastTooltip'),
+      lastTooltip: t('common:lastTooltip'),
+    },
+    header: {
+      actions: t('common:actions'),
+    },
+    body: {
+      emptyDataSourceMessage: t('error:emptyDataSourceMessage'),
+      editRow: {
+        saveTooltip: t('common:save'),
+        cancelTooltip: t('common:cancel'),
+      },
+      editTooltip: t('common:edit'),
+    },
+  };
+}
+
+export const RemoteTable = (props) => {
   const { t } = useTranslation();
+  const localization = getLocalization(t);
 
   return (
     <MaterialTable
       icons={tableIcons}
       title=""
       tableRef={props.tableRef}
-      localization={{
-        pagination: {
-          labelDisplayedRows: t('common:labelDisplayedRows'),
-          labelRowsSelect: t('common:labelRowsSelect'),
-          labelRowsPerPage: t('common:labelRowsPerPage'),
-          firstAriaLabel: t('common:firstTooltip'),
-          firstTooltip: t('common:firstTooltip'),
-          previousAriaLabel: t('common:previousTooltip'),
-          previousTooltip: t('common:previousTooltip'),
-          nextAriaLabel: t('common:nextTooltip'),
-          nextTooltip: t('common:nextTooltip'),
-          lastAriaLabel: t('common:lastTooltip'),
-          lastTooltip: t('common:lastTooltip'),
-        },
-        header: {
-          actions: t('common:actions'),
-        },
-        body: {
-          emptyDataSourceMessage: t('error:emptyDataSourceMessage'),
-          editRow: {
-            saveTooltip: t('common:save'),
-            cancelTooltip: t('common:cancel'),
-          },
-          editTooltip: t('common:edit'),
-        },
-      }}
-      options={Object.assign(
-        {
-          debounceInterval: 500,
-          searchFieldVariant: 'outlined',
-          actionsColumnIndex: -1,
-        },
-        props.options
-      )}
+      localization={localization}
+      options={Object.assign(getDefaultOptions(), props.options)}
       columns={props.columns}
       actions={props.actions}
       editable={props.editable}
@@ -107,6 +114,26 @@ export default (props) => {
           };
         });
       }}
+    />
+  );
+};
+
+export const PartiallyRemoteTable = (props) => {
+  const { t } = useTranslation();
+  const localization = getLocalization(t);
+
+  return (
+    <MaterialTable
+      icons={tableIcons}
+      title=""
+      tableRef={props.tableRef}
+      localization={localization}
+      options={Object.assign(getDefaultOptions(), props.options)}
+      columns={props.columns}
+      actions={props.actions}
+      editable={props.editable}
+      components={props.components}
+      data={props.data}
     />
   );
 };

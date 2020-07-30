@@ -12,4 +12,8 @@ export default makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
     whiteSpace: 'pre-line',
   },
+  tableIcon: {
+    marginRight: theme.spacing(0.5),
+    verticalAlign: 'text-bottom',
+  },
 }));

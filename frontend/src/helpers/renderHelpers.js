@@ -10,6 +10,6 @@ export function formatDateTime(dt) {
   return moment(dt).local().format('LLL');
 }
 
-export const renderDateTimeField = (row) => {
-  return <>{formatDateTime(row.created_at)}</>;
-};
+export const renderDateTimeField = data => <>{formatDateTime(data)}</>;
+
+export const renderCreatedAtField = row => renderDateTimeField(row.created_at);

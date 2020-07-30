@@ -110,8 +110,8 @@ export default function (props) {
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasRequested, setHasRequested] = useState(false);
-  const [inputValue, setInputValue] = useState(getSearchFromQueryString());
-  const [defaultValue] = useState(getSearchFromQueryString());
+  const [inputValue, setInputValue] = useState(getSearchFromQueryString);
+  const [defaultValue] = useState(getSearchFromQueryString);
 
   // Management stuff
   const [itemMenuAnchorEl, setItemMenuAnchorEl] = useState(null);
