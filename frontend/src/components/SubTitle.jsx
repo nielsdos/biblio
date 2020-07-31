@@ -6,7 +6,7 @@ export default (props) => {
   const classes = GlobalStyles();
 
   return (
-    <Typography className={classes.titleSpacer} component="h1" variant="h4">
+    <Typography className={classes.subTitleSpacer} component="h2" variant="h6">
       {props.title}
     </Typography>
   );

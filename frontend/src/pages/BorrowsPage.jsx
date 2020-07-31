@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import Title from '../components/Title';
 import TextField from '@material-ui/core/TextField';
 import { useTranslation } from 'react-i18next';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
@@ -18,8 +17,66 @@ import { PartiallyRemoteTable } from '../components/RemoteTable';
 import { renderDateTimeField } from '../helpers/renderHelpers';
 import { Route, Switch, useLocation, useHistory } from 'react-router-dom';
 import Api from '../Api';
+import GlobalStyles from './GlobalStyles';
+import SubTitle from '../components/SubTitle';
 
-function BorrowerSearch() {
+// TODO: split page
+
+function PendingBorrows(props) {
+  const { t } = useTranslation();
+  const manageClasses = ManageStyles();
+
+  return (
+    <>
+      <SubTitle title={t('manage:pendingBorrows')} />
+
+      <PartiallyRemoteTable
+        columns={[
+          { title: t('common:title'), field: 'book.title' },
+          { title: 'ISBN 13', field: 'book.isbn13' },
+          {
+            title: t('common:borrowStart'),
+            field: 'borrow.start',
+            render: (row) => renderDateTimeField(row.borrow.start),
+          },
+          {
+            title: t('common:borrowEnd'),
+            field: 'borrow.end',
+            render: (row) => (
+              <>
+                {row.borrow.late && (
+                  <AccessTimeIcon
+                    className={manageClasses.tableIcon}
+                    color="secondary"
+                    fontSize="small"
+                  />
+                )}
+                {renderDateTimeField(row.borrow.end)}
+              </>
+            ),
+          },
+        ]}
+        components={{
+          Toolbar: (_) => <></>,
+          Container: (props) => <Paper {...props} elevation={0} />,
+        }}
+        data={props.data}
+      />
+    </>
+  );
+}
+
+function ManualAdd(props) {
+  const { t } = useTranslation();
+
+  return (
+    <>
+      <SubTitle title={t('manage:manualAddBorrow')} />
+    </>
+  );
+}
+
+function PerBorrower() {
   const { t } = useTranslation();
   const manageClasses = ManageStyles();
   const [options, setOptions] = useState([]);
@@ -110,41 +167,14 @@ function BorrowerSearch() {
 
       {value &&
         (borrowData ? (
-          <Paper className={manageClasses.paper}>
-            <Typography className={manageClasses.description} variant="body1">
-              TODO: test
-            </Typography>
-
-            <PartiallyRemoteTable
-              columns={[
-                { title: t('common:title'), field: 'book.title' },
-                { title: 'ISBN 13', field: 'book.isbn13' },
-                {
-                  title: t('common:borrowStart'),
-                  field: 'borrow.start',
-                  render: (row) => renderDateTimeField(row.borrow.start),
-                },
-                {
-                  title: t('common:borrowEnd'),
-                  field: 'borrow.end',
-                  render: (row) => (
-                    <>
-                      {row.borrow.late && (
-                        <AccessTimeIcon
-                          className={manageClasses.tableIcon}
-                          color="secondary"
-                          fontSize="small"
-                        />
-                      )}
-                      {renderDateTimeField(row.borrow.end)}
-                    </>
-                  ),
-                },
-              ]}
-              components={{ Toolbar: (_) => <></> }}
-              data={borrowData}
-            />
-          </Paper>
+          <>
+            <Paper className={manageClasses.paper}>
+              <ManualAdd />
+            </Paper>
+            <Paper className={manageClasses.paper}>
+              <PendingBorrows data={borrowData} />
+            </Paper>
+          </>
         ) : (
           <NormalSpinner />
         ))}
@@ -152,7 +182,7 @@ function BorrowerSearch() {
   );
 }
 
-function Abc() {
+function Stats() {
   return (
     <>
       <p>hi</p>
@@ -163,8 +193,16 @@ function Abc() {
 export default function () {
   const { t } = useTranslation();
   const ROUTES = [
-    { path: '/borrows/by-borrower', title: 'a', component: BorrowerSearch },
-    { path: '/borrows/test2', title: 'b', component: Abc },
+    {
+      path: '/borrows/by-borrower',
+      title: t('manage:borrowsPerBorrower'),
+      component: PerBorrower,
+    },
+    {
+      path: '/borrows/test2',
+      title: t('manage:borrowsStats'),
+      component: Stats,
+    },
   ];
   const location = useLocation();
   const getIdx = () => {
@@ -172,6 +210,7 @@ export default function () {
     return idx > -1 ? idx : false;
   };
 
+  const globalClasses = GlobalStyles();
   const history = useHistory();
   const [tabValue, setTabValue] = useState(getIdx);
 
@@ -197,7 +236,8 @@ export default function () {
         </Tabs>
       </div>
       <Container>
-        <Title title={t('manage:borrows')} />
+        {/*<Title title={ROUTES[tabValue].title} />*/}
+        <div className={globalClasses.titleSpacer} />
         <Switch>
           {ROUTES.map((item) => (
             <Route exact path={item.path} component={item.component} />

@@ -22,5 +22,8 @@
   "deleteInviteSuccess": "Uitnodiging verwijderd",
   "deleteBook": "Boek verwijderen",
   "deleteBookText": "Weet u zeker dat u dit boek wil verwijderen? Alle openstaande uitleningen zullen hierdoor ook verwijderd worden!",
-  "deleteBookSuccess": "Boek verwijderd"
+  "deleteBookSuccess": "Boek verwijderd",
+  "pendingBorrows": "Openstaande leningen",
+  "borrowsPerBorrower": "Uitleningen voor leners",
+  "borrowsStats": "Rapportering"
 }

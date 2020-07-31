@@ -9,7 +9,7 @@ export default makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   description: {
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(1),
     whiteSpace: 'pre-line',
   },
   tableIcon: {

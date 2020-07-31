@@ -11,6 +11,7 @@
 * Write a real README
 * Account removal & settings
 * More book info: edition, physical location, ...
+* Barcodes
 * Clear old invites from db
 * Store more data on borrowers
 * Improve mobile layout
@@ -18,3 +19,4 @@
 * Automatic reminders
 * Stats?
 * Permission/policy system
+* Configuration of: default due dates, ...
