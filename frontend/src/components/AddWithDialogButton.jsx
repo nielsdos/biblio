@@ -8,8 +8,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { getErrorObjectFromResponse } from '../Api';
-import TopProgressBar from '../components/TopProgressBar';
-import Notification from '../components/Notification';
+import TopProgressBar from './TopProgressBar';
+import Notification from './Notification';
 
 export function AddDialog(props) {
   const { t } = useTranslation();

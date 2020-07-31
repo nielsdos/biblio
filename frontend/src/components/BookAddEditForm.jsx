@@ -13,11 +13,11 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import SearchIcon from '@material-ui/icons/Search';
 import SaveIcon from '@material-ui/icons/Save';
-import NormalSpinner from '../components/NormalSpinner';
-import TopProgressBar from '../components/TopProgressBar';
+import NormalSpinner from './NormalSpinner';
+import TopProgressBar from './TopProgressBar';
 import { Field, Formik } from 'formik';
 import Api, { getErrorObjectFromResponse } from '../Api';
-import BookResult, { postProcessResult } from '../components/BookResult';
+import BookResult, { postProcessResult } from './BookResult';
 import ManageStyles from './ManageStyles';
 
 const useStyles = makeStyles((theme) => ({
