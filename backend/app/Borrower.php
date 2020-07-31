@@ -13,7 +13,8 @@ class Borrower extends Model {
 
     public function currentBorrows() {
         return $this->belongsToMany('App\Book')
-                    ->withPivot(['start', 'end'])
-                    ->where('returned', '=', null);
+                    ->withPivot(['start', 'end', 'returned'])
+                    ->where('returned', '=', null)
+                    ->using(Borrow::class);
     }
 }

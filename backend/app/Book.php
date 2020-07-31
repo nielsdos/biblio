@@ -14,7 +14,8 @@ class Book extends Model {
     public function currentBorrowers() {
         return $this->belongsToMany('App\Borrower')
                     ->withPivot('start', 'end', 'returned')
-                    ->wherePivot('returned', '=', null);
+                    ->wherePivot('returned', '=', null)
+                    ->using(Borrow::class);
     }
 
     public function authors() {
