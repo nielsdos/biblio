@@ -13,8 +13,6 @@ class BorrowController extends Controller {
     }
 
     public function indexByBorrower(Borrower $borrower) {
-// TODO: rename book_borrowers table? get rid of model?
-
         return BorrowResource::collection(
             $borrower->currentBorrows()->get(['books.id', 'title', 'isbn13', 'isbn10'])
         );

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 use App\Book;
 
 class BookSeeder extends Seeder {
@@ -12,7 +13,7 @@ class BookSeeder extends Seeder {
     public function run() {
         // Source: openlibrary
 
-        Book::create([
+        $book = Book::create([
             'isbn13' => '9780545010221',
             'isbn10' => '0545010225',
             'data_source' => 'openlibrary',
@@ -22,9 +23,18 @@ class BookSeeder extends Seeder {
             'publisher_id' => 3,
             'cover_url' => 'https://covers.openlibrary.org/b/id/7904782-M.jpg',
             'number_of_copies' => 2,
-        ])->authors()->attach(1);
+        ]);
+        $book->authors()->attach(1);
+        $book->currentBorrowers()->attach(2, [
+            'start' => Carbon::now()->addDays(-3),
+            'end' => Carbon::now()->addDays(7),
+        ]);
+        $book->currentBorrowers()->attach(1, [
+            'start' => Carbon::now()->addDays(-10),
+            'end' => Carbon::now()->addDays(10),
+        ]);
 
-        Book::create([
+        $book = Book::create([
             'isbn13' => '9780545582995',
             'isbn10' => '0545582997',
             'data_source' => 'openlibrary',
@@ -34,9 +44,24 @@ class BookSeeder extends Seeder {
             'publisher_id' => 4,
             'cover_url' => 'https://covers.openlibrary.org/b/id/8131350-M.jpg',
             'number_of_copies' => 2,
-        ])->authors()->attach(1);
+        ]);
+        $book->authors()->attach(1);
+        $book->currentBorrowers()->attach(1, [
+            'start' => Carbon::now()->addDays(-1),
+            'end' => Carbon::now()->addDays(9),
+        ]);
+        $book->currentBorrowers()->attach(2, [
+            'start' => Carbon::now()->addDays(-2),
+            'end' => Carbon::now()->addDays(8),
+            'returned' => Carbon::now()->addDays(-1),
+        ]);
+        $book->currentBorrowers()->attach(1, [
+            'start' => Carbon::now()->addDays(-25),
+            'end' => Carbon::now()->addDays(-15),
+            'returned' => Carbon::now()->addDays(-13),
+        ]);
 
-        Book::create([
+        $book = Book::create([
             'isbn13' => '9780545582957',
             'isbn10' => '0545582954',
             'data_source' => 'openlibrary',
@@ -46,9 +71,11 @@ class BookSeeder extends Seeder {
             'publisher_id' => 4,
             'cover_url' => 'https://covers.openlibrary.org/b/id/8081233-M.jpg',
             'number_of_copies' => 1,
-        ])->authors()->attach(1);
+        ]);
+        $book->authors()->attach(1);
 
-        Book::create([
+
+        $book = Book::create([
             'isbn13' => '9780545582933',
             'isbn10' => '0545582938',
             'data_source' => 'openlibrary',
@@ -59,9 +86,14 @@ class BookSeeder extends Seeder {
             'cover_url' => 'https://covers.openlibrary.org/b/id/8128316-M.jpg',
             'description' => 'Some description I\'m probably not allowed to include in the demo data.',
             'number_of_copies' => 2,
-        ])->authors()->attach(1);
+        ]);
+        $book->authors()->attach(1);
+        $book->currentBorrowers()->attach(1, [
+            'start' => Carbon::now()->addDays(-10),
+            'end' => Carbon::now()->addDays(-5),
+        ]);
 
-        Book::create([
+        $book = Book::create([
             'isbn13' => '9780345391803',
             'isbn10' => '0345391802',
             'data_source' => 'openlibrary',
@@ -70,9 +102,10 @@ class BookSeeder extends Seeder {
             'publisher_id' => 1,
             'cover_url' => 'https://covers.openlibrary.org/b/id/8774325-M.jpg',
             'number_of_copies' => 42,
-        ])->authors()->attach(2);
+        ]);
+        $book->authors()->attach(2);
 
-        Book::create([
+        $book = Book::create([
             'isbn13' => '9780452284234',
             'isbn10' => '0452284236',
             'data_source' => 'openlibrary',
@@ -81,6 +114,7 @@ class BookSeeder extends Seeder {
             'publisher_id' => 2,
             'cover_url' => 'https://covers.openlibrary.org/b/id/7898938-M.jpg',
             'number_of_copies' => 2,
-        ])->authors()->attach(3);
+        ]);
+        $book->authors()->attach(3);
     }
 }

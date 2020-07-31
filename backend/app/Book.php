@@ -12,7 +12,7 @@ class Book extends Model {
     protected $sortable = [];
 
     public function currentBorrowers() {
-        return $this->belongsToMany('App\Borrower', 'book_borrowers')
+        return $this->belongsToMany('App\Borrower')
                     ->withPivot('start', 'end', 'returned')
                     ->wherePivot('returned', '=', null);
     }
