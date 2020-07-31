@@ -14,7 +14,9 @@ class BorrowController extends Controller {
 
     public function indexByBorrower(Borrower $borrower) {
         return BorrowResource::collection(
-            $borrower->currentBorrows()->get(['books.id', 'title', 'isbn13', 'isbn10'])
+            $borrower->currentBorrows()
+                     ->orderBy('start')
+                     ->get(['books.id', 'title', 'isbn13', 'isbn10'])
         );
     }
 }
